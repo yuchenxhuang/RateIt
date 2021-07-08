@@ -57,11 +57,11 @@
 			isa = PBXGroup;
 			children = (
 				934E6F2F2695657B00ABBDDA /* RateItApp.swift */,
+				936F5BF02695746300582A78 /* Models */,
 				934E6F312695657B00ABBDDA /* ContentView.swift */,
 				934E6F332695657F00ABBDDA /* Assets.xcassets */,
 				934E6F382695657F00ABBDDA /* Persistence.swift */,
 				934E6F3D2695657F00ABBDDA /* Info.plist */,
-				934E6F3A2695657F00ABBDDA /* RateIt.xcdatamodeld */,
 				934E6F352695657F00ABBDDA /* Preview Content */,
 			);
 			path = RateIt;
@@ -73,6 +73,14 @@
 				934E6F362695657F00ABBDDA /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		936F5BF02695746300582A78 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				934E6F3A2695657F00ABBDDA /* RateIt.xcdatamodeld */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
