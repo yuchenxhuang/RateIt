@@ -8,22 +8,38 @@
 
 /* Begin PBXBuildFile section */
 		934E6F302695657B00ABBDDA /* RateItApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934E6F2F2695657B00ABBDDA /* RateItApp.swift */; };
-		934E6F322695657B00ABBDDA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934E6F312695657B00ABBDDA /* ContentView.swift */; };
 		934E6F342695657F00ABBDDA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 934E6F332695657F00ABBDDA /* Assets.xcassets */; };
 		934E6F372695657F00ABBDDA /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 934E6F362695657F00ABBDDA /* Preview Assets.xcassets */; };
-		934E6F392695657F00ABBDDA /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934E6F382695657F00ABBDDA /* Persistence.swift */; };
-		934E6F3C2695657F00ABBDDA /* RateIt.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 934E6F3A2695657F00ABBDDA /* RateIt.xcdatamodeld */; };
+		9373217826982BCE00860FC4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9373217726982BCE00860FC4 /* ContentView.swift */; };
+		93C17ECF26981DCF00A468D1 /* ItemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C17EC226981DCE00A468D1 /* ItemsView.swift */; };
+		93C17ED026981DCF00A468D1 /* PersistenceProvider+Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C17EC326981DCE00A468D1 /* PersistenceProvider+Item.swift */; };
+		93C17ED226981DCF00A468D1 /* Array+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C17EC526981DCE00A468D1 /* Array+Convenience.swift */; };
+		93C17ED326981DCF00A468D1 /* CategoryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C17EC626981DCE00A468D1 /* CategoryDetailView.swift */; };
+		93C17ED426981DCF00A468D1 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C17EC726981DCF00A468D1 /* HomeView.swift */; };
+		93C17ED526981DCF00A468D1 /* PersistenceProvider+Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C17EC826981DCF00A468D1 /* PersistenceProvider+Category.swift */; };
+		93C17ED626981DCF00A468D1 /* TextInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C17EC926981DCF00A468D1 /* TextInputView.swift */; };
+		93C17ED726981DCF00A468D1 /* RateIt.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 93C17ECA26981DCF00A468D1 /* RateIt.xcdatamodeld */; };
+		93C17ED826981DCF00A468D1 /* PersistenceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C17ECC26981DCF00A468D1 /* PersistenceProvider.swift */; };
+		93C17EDA26981DCF00A468D1 /* ItemDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C17ECE26981DCF00A468D1 /* ItemDetailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		934E6F2C2695657B00ABBDDA /* RateIt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RateIt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		934E6F2F2695657B00ABBDDA /* RateItApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateItApp.swift; sourceTree = "<group>"; };
-		934E6F312695657B00ABBDDA /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		934E6F332695657F00ABBDDA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		934E6F362695657F00ABBDDA /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		934E6F382695657F00ABBDDA /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
-		934E6F3B2695657F00ABBDDA /* RateIt.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = RateIt.xcdatamodel; sourceTree = "<group>"; };
 		934E6F3D2695657F00ABBDDA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9373217726982BCE00860FC4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		93C17EC226981DCE00A468D1 /* ItemsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemsView.swift; sourceTree = "<group>"; };
+		93C17EC326981DCE00A468D1 /* PersistenceProvider+Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PersistenceProvider+Item.swift"; sourceTree = "<group>"; };
+		93C17EC526981DCE00A468D1 /* Array+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Convenience.swift"; sourceTree = "<group>"; };
+		93C17EC626981DCE00A468D1 /* CategoryDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryDetailView.swift; sourceTree = "<group>"; };
+		93C17EC726981DCF00A468D1 /* HomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		93C17EC826981DCF00A468D1 /* PersistenceProvider+Category.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PersistenceProvider+Category.swift"; sourceTree = "<group>"; };
+		93C17EC926981DCF00A468D1 /* TextInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextInputView.swift; sourceTree = "<group>"; };
+		93C17ECB26981DCF00A468D1 /* TodoListsSwiftUI.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TodoListsSwiftUI.xcdatamodel; sourceTree = "<group>"; };
+		93C17ECC26981DCF00A468D1 /* PersistenceProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistenceProvider.swift; sourceTree = "<group>"; };
+		93C17ECE26981DCF00A468D1 /* ItemDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,11 +73,12 @@
 			isa = PBXGroup;
 			children = (
 				934E6F2F2695657B00ABBDDA /* RateItApp.swift */,
-				936F5BF02695746300582A78 /* Models */,
-				934E6F312695657B00ABBDDA /* ContentView.swift */,
-				934E6F332695657F00ABBDDA /* Assets.xcassets */,
-				934E6F382695657F00ABBDDA /* Persistence.swift */,
+				9373217726982BCE00860FC4 /* ContentView.swift */,
 				934E6F3D2695657F00ABBDDA /* Info.plist */,
+				9373217426982B0000860FC4 /* Views */,
+				936F5BF02695746300582A78 /* Persistence */,
+				9373217526982B0C00860FC4 /* Helper */,
+				934E6F332695657F00ABBDDA /* Assets.xcassets */,
 				934E6F352695657F00ABBDDA /* Preview Content */,
 			);
 			path = RateIt;
@@ -75,12 +92,35 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		936F5BF02695746300582A78 /* Models */ = {
+		936F5BF02695746300582A78 /* Persistence */ = {
 			isa = PBXGroup;
 			children = (
-				934E6F3A2695657F00ABBDDA /* RateIt.xcdatamodeld */,
+				93C17ECA26981DCF00A468D1 /* RateIt.xcdatamodeld */,
+				93C17ECC26981DCF00A468D1 /* PersistenceProvider.swift */,
+				93C17EC826981DCF00A468D1 /* PersistenceProvider+Category.swift */,
+				93C17EC326981DCE00A468D1 /* PersistenceProvider+Item.swift */,
 			);
-			path = Models;
+			path = Persistence;
+			sourceTree = "<group>";
+		};
+		9373217426982B0000860FC4 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				93C17EC726981DCF00A468D1 /* HomeView.swift */,
+				93C17EC626981DCE00A468D1 /* CategoryDetailView.swift */,
+				93C17ECE26981DCF00A468D1 /* ItemDetailView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		9373217526982B0C00860FC4 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				93C17EC526981DCE00A468D1 /* Array+Convenience.swift */,
+				93C17EC226981DCE00A468D1 /* ItemsView.swift */,
+				93C17EC926981DCF00A468D1 /* TextInputView.swift */,
+			);
+			path = Helper;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -152,10 +192,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				934E6F3C2695657F00ABBDDA /* RateIt.xcdatamodeld in Sources */,
-				934E6F392695657F00ABBDDA /* Persistence.swift in Sources */,
-				934E6F322695657B00ABBDDA /* ContentView.swift in Sources */,
+				93C17ED526981DCF00A468D1 /* PersistenceProvider+Category.swift in Sources */,
+				93C17ED626981DCF00A468D1 /* TextInputView.swift in Sources */,
+				9373217826982BCE00860FC4 /* ContentView.swift in Sources */,
+				93C17ED226981DCF00A468D1 /* Array+Convenience.swift in Sources */,
+				93C17ED826981DCF00A468D1 /* PersistenceProvider.swift in Sources */,
+				93C17ED726981DCF00A468D1 /* RateIt.xcdatamodeld in Sources */,
+				93C17ED426981DCF00A468D1 /* HomeView.swift in Sources */,
+				93C17ECF26981DCF00A468D1 /* ItemsView.swift in Sources */,
+				93C17ED326981DCF00A468D1 /* CategoryDetailView.swift in Sources */,
+				93C17EDA26981DCF00A468D1 /* ItemDetailView.swift in Sources */,
 				934E6F302695657B00ABBDDA /* RateItApp.swift in Sources */,
+				93C17ED026981DCF00A468D1 /* PersistenceProvider+Item.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -346,13 +394,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		934E6F3A2695657F00ABBDDA /* RateIt.xcdatamodeld */ = {
+		93C17ECA26981DCF00A468D1 /* RateIt.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				934E6F3B2695657F00ABBDDA /* RateIt.xcdatamodel */,
+				93C17ECB26981DCF00A468D1 /* TodoListsSwiftUI.xcdatamodel */,
 			);
-			currentVersion = 934E6F3B2695657F00ABBDDA /* RateIt.xcdatamodel */;
-			path = RateIt.xcdatamodeld;
+			currentVersion = 93C17ECB26981DCF00A468D1 /* TodoListsSwiftUI.xcdatamodel */;
+			name = RateIt.xcdatamodeld;
+			path = ../RateIt.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
