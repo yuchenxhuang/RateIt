@@ -14,6 +14,7 @@ struct CategoryDetailView: View {
     @State private var isPresented = false
     @State private var isAdding = false
     @State private var catName = ""
+    @State private var catColor = "white"
     @State private var itemName = ""
     @State private var itemRating = 1.0
     @State private var itemNotes = ""
@@ -43,19 +44,20 @@ struct CategoryDetailView: View {
                 Button("Edit") {
                     isPresented = true
                     catName = category.title ?? ""
+                    catColor = category.color ?? "white"
                 }
             })
             
             // EDIT VIEW
             .fullScreenCover(isPresented: $isPresented) {
                 NavigationView {
-                    CategoryEditView(category: category, title: $catName)
+                    CategoryEditView(category: category, title: $catName, color: $catColor)
                         .navigationTitle(category.title ?? "")
                         .navigationBarItems(leading: Button("Cancel") {
                             isPresented = false
                         }, trailing: Button("Done") {
                             isPresented = false
-                            if (catName != "") { PersistenceProvider.default.update(category, with: catName) }
+                            if (catName != "") { PersistenceProvider.default.update(category, with: catName, with: catColor) }
                         })
                 }
             }
@@ -103,13 +105,18 @@ struct CategoryDetailView: View {
 struct CategoryEditView: View {
     @ObservedObject var category: Category
     @Binding var title: String
+    @Binding var color: String
 
     var body: some View {
         List {
             Section(header: Text("Title")) {
                 TextField(category.title ?? "Title", text: $title)
             }
+            Section(header: Text("Color")) {
+                ColorChoice(color: $color)
+            }
         }
+        .buttonStyle(BorderlessButtonStyle())
         .listStyle(InsetGroupedListStyle())
     }
 }

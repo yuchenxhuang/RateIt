@@ -16,16 +16,18 @@ extension PersistenceProvider {
     }
     
     @discardableResult
-    func createCategory(with title: String) -> Category {
+    func createCategory(with title: String, with color: String) -> Category {
         let category = Category(context: context)
         category.title = title
+        category.color = color
         category.creationDate = Date()
         try? context.save()
         return category
     }
     
-    func update(_ category: Category, with title: String) {
+    func update(_ category: Category, with title: String, with color: String) {
         category.title = title
+        category.color = color
         try? context.save()
     }
     

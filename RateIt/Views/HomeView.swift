@@ -11,7 +11,8 @@ struct HomeView: View {
     @FetchRequest(fetchRequest: PersistenceProvider.default.allCategoriesRequest) var allLists: FetchedResults<Category>
     @State private var isPresented = false
     @State private var newName = ""
-    
+    @State private var newColor = "white"
+
     var body: some View {
         ZStack {
             
@@ -23,7 +24,10 @@ struct HomeView: View {
                             Text(category.title ?? "")
                                 .padding()
                                 .font(.headline)
+                                .foregroundColor( getTextColor(color: category.color ?? "white") )
                         }
+                        .listRowBackground( getColor(color: category.color ?? "white"))
+                        //.listRowBackground( Color.blue )
                     }
                     .onDelete(perform: { indexSet in
                         PersistenceProvider.default.delete(allLists.get(indexSet))
@@ -33,15 +37,17 @@ struct HomeView: View {
                 // ADD CATEGORY VIEW
                 .sheet(isPresented: $isPresented) {
                     NavigationView {
-                        AddCategoryView(newName: $newName)
+                        AddCategoryView(newName: $newName, newColor: $newColor)
                             .navigationTitle("New Category")
                             .navigationBarItems(leading: Button("Cancel") {
                                 isPresented = false
                                 newName = ""
+                                newColor = "white"
                             }, trailing: Button("Done") {
                                 isPresented = false
-                                if (newName != "") {PersistenceProvider.default.createCategory(with: newName)}
+                                if (newName != "") {PersistenceProvider.default.createCategory(with: newName, with: newColor)}
                                 newName = ""
+                                newColor = "white"
                             })
                     }
                 }
@@ -69,13 +75,18 @@ struct HomeView: View {
 
 struct AddCategoryView: View {
     @Binding var newName: String
+    @Binding var newColor: String
 
     var body: some View {
         List {
             Section(header: Text("Title")) {
                 TextField("Title", text: $newName)
             }
+            Section(header: Text("Color")) {
+                ColorChoice(color: $newColor)
+            }
         }
         .listStyle(InsetGroupedListStyle())
+        .buttonStyle(BorderlessButtonStyle())
     }
 }

@@ -96,8 +96,6 @@ struct ItemEditView: View {
     }
 }
 
-
-
 struct BlankView: View {
     var body: some View {
         Text("")
