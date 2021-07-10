@@ -1,0 +1,26 @@
+//
+//  CategoryEditView.swift
+//  RateIt
+//
+//  Created by Yu-Chen Huang on 7/10/21.
+//
+
+import SwiftUI
+
+struct CategoryEditView: View {
+    @Binding var title: String
+    @Binding var color: String
+
+    var body: some View {
+        List {
+            Section(header: Text("Title")) {
+                TextField("Title", text: $title)
+            }
+            Section(header: Text("Color")) {
+                ColorChoice(color: $color)
+            }
+        }
+        .buttonStyle(BorderlessButtonStyle())
+        .listStyle(InsetGroupedListStyle())
+    }
+}

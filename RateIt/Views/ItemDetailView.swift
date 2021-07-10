@@ -41,6 +41,7 @@ struct ItemDetailView: View {
                 Text( (item.notes != nil && item.notes != "") ? item.notes! : "No notes yet" )
                 
                 if ( item.link != nil && item.link != "" ) {
+                    Divider()
                     Text("Link")
                         .bold().font(.title2)
                     //Text( (item.link != nil && item.link != "") ? item.link! : "No link yet" )
@@ -60,7 +61,7 @@ struct ItemDetailView: View {
             })
             .fullScreenCover(isPresented: $isPresented) {
                 NavigationView {
-                    ItemEditView(item: item, name: $newName, rating: $rating, notes: $notes, link: $link)
+                    ItemEditView(name: $newName, rating: $rating, notes: $notes, link: $link)
                         .navigationTitle(item.title ?? "")
                         .navigationBarItems(leading: Button("Cancel") {
                             isPresented = false
@@ -72,40 +73,6 @@ struct ItemDetailView: View {
                         })
                 }
             }
-        }
-    }
-}
-
-struct ItemEditView: View {
-    @ObservedObject var item: Item
-    @Binding var name: String
-    @Binding var rating: Double
-    @Binding var notes: String
-    @Binding var link: String
-
-    var body: some View {
-        VStack {
-            List {
-                Section(header: Text("Title")) {
-                    TextField("Title", text: $name)
-                }
-                Section(header: Text("Rating")) {
-                    HStack {
-                        Slider(value: $rating, in: 1...10, step: 1.0) {
-                            Text("Rating")
-                        }
-                        Spacer()
-                        Text("\(Int16(rating))")
-                    }
-                }
-                Section(header: Text("Notes")){
-                    TextEditor(text: $notes)
-                }
-                Section(header: Text("Link")){
-                    TextEditor(text: $link)
-                }
-            }
-            .listStyle(InsetGroupedListStyle())
         }
     }
 }

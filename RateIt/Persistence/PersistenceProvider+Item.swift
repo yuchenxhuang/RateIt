@@ -19,13 +19,14 @@ extension PersistenceProvider {
     }
     
     @discardableResult
-    func createItem(with title: String, with rating: Int16, in list: Category) -> Item {
+    func createItem(with title: String, with rating: Int16, with notes: String, with link: String, in list: Category) -> Item {
         let item = Item(context: context)
         item.title = title
         item.rating = rating
         item.creationDate = Date()
-        item.notes = ""
-        item.link = ""
+        item.notes = notes
+        item.link = link
+        item.favorite = false
         list.addToItems(item)
         try? context.save()
         return item

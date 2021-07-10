@@ -52,7 +52,7 @@ struct CategoryDetailView: View {
             // EDIT VIEW
             .fullScreenCover(isPresented: $isPresented) {
                 NavigationView {
-                    CategoryEditView(category: category, title: $catName, color: $catColor)
+                    CategoryEditView(title: $catName, color: $catColor)
                         .navigationTitle(category.title ?? "")
                         .navigationBarItems(leading: Button("Cancel") {
                             isPresented = false
@@ -66,20 +66,21 @@ struct CategoryDetailView: View {
             // ADDING NEW ITEM
             .sheet(isPresented: $isAdding) {
                 NavigationView {
-                    AddItemView(itemText: $itemName, rating: $itemRating, notes: $itemNotes, link: $itemLink)
+                    ItemEditView(name: $itemName, rating: $itemRating, notes: $itemNotes, link: $itemLink)
                         .navigationTitle(category.title ?? "")
                         .navigationBarItems(leading: Button("Cancel") {
                             isAdding = false
                             itemName = ""
                             itemRating = 1.0
                             itemNotes = ""
+                            itemLink = ""
                         }, trailing: Button("Done") {
                             isAdding = false
-                            if (itemName != "") {PersistenceProvider.default.createItem(with: itemName, with: Int16(itemRating), in: category)}
+                            if (itemName != "") {PersistenceProvider.default.createItem(with: itemName, with: Int16(itemRating), with: itemNotes, with: itemLink,  in: category)}
                             itemName = ""
                             itemRating = 1.0
                             itemNotes = ""
-                            
+                            itemLink = ""
                         })
                 }
             }
@@ -100,55 +101,5 @@ struct CategoryDetailView: View {
                 }
             }
         }
-    }
-}
-
-struct CategoryEditView: View {
-    @ObservedObject var category: Category
-    @Binding var title: String
-    @Binding var color: String
-
-    var body: some View {
-        List {
-            Section(header: Text("Title")) {
-                TextField(category.title ?? "Title", text: $title)
-            }
-            Section(header: Text("Color")) {
-                ColorChoice(color: $color)
-            }
-        }
-        .buttonStyle(BorderlessButtonStyle())
-        .listStyle(InsetGroupedListStyle())
-    }
-}
-
-struct AddItemView: View {
-    @Binding var itemText: String
-    @Binding var rating: Double
-    @Binding var notes: String
-    @Binding var link: String
-
-    var body: some View {
-        List {
-            Section(header: Text("Title")) {
-                TextField("Title", text: $itemText)
-            }
-            Section(header: Text("Rating")) {
-                HStack {
-                    Slider(value: $rating, in: 1...10, step: 1.0) {
-                        Text("Rating")
-                    }
-                    Spacer()
-                    Text("\(Int16(rating))")
-                }
-            }
-            Section(header: Text("Notes")){
-                TextEditor(text: $notes)
-            }
-            Section(header: Text("Link")){
-                TextField("Link", text: $link)
-            }
-        }
-        .listStyle(InsetGroupedListStyle())
     }
 }

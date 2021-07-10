@@ -36,7 +36,7 @@ struct HomeView: View {
                 // ADD CATEGORY VIEW
                 .sheet(isPresented: $isPresented) {
                     NavigationView {
-                        AddCategoryView(newName: $newName, newColor: $newColor)
+                        CategoryEditView(title: $newName, color: $newColor)
                             .navigationTitle("New Category")
                             .navigationBarItems(leading: Button("Cancel") {
                                 isPresented = false
@@ -69,23 +69,5 @@ struct HomeView: View {
                 }
             }
         }
-    }
-}
-
-struct AddCategoryView: View {
-    @Binding var newName: String
-    @Binding var newColor: String
-
-    var body: some View {
-        List {
-            Section(header: Text("Title")) {
-                TextField("Title", text: $newName)
-            }
-            Section(header: Text("Color")) {
-                ColorChoice(color: $newColor)
-            }
-        }
-        .listStyle(InsetGroupedListStyle())
-        .buttonStyle(BorderlessButtonStyle())
     }
 }

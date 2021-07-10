@@ -13,7 +13,7 @@ struct ItemsView: View {
     let onDelete: ([Item]) -> Void
     
     @State var showAlertDelete = false
-    
+
     var body: some View {
         List {
             ForEach(items) { item in
@@ -48,3 +48,4 @@ struct ItemCardView: View {
         .foregroundColor(.black)
     }
 }
+
