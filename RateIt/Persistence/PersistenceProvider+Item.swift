@@ -24,6 +24,8 @@ extension PersistenceProvider {
         item.title = title
         item.rating = rating
         item.creationDate = Date()
+        item.notes = ""
+        item.link = ""
         list.addToItems(item)
         try? context.save()
         return item
@@ -34,10 +36,11 @@ extension PersistenceProvider {
         try? context.save()
     }
     
-    func update(_ item: Item, with title: String, with rating: Int16, with notes: String) {
+    func update(_ item: Item, with title: String, with rating: Int16, with notes: String, with link: String) {
         item.title = title
         item.rating = rating
         item.notes = notes
+        item.link = link
         try? context.save()
     }
     

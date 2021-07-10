@@ -27,7 +27,6 @@ struct HomeView: View {
                                 .foregroundColor( getTextColor(color: category.color ?? "white") )
                         }
                         .listRowBackground( getColor(color: category.color ?? "white"))
-                        //.listRowBackground( Color.blue )
                     }
                     .onDelete(perform: { indexSet in
                         PersistenceProvider.default.delete(allLists.get(indexSet))

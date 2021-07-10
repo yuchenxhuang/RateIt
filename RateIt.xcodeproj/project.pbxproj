@@ -12,6 +12,7 @@
 		934E6F372695657F00ABBDDA /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 934E6F362695657F00ABBDDA /* Preview Assets.xcassets */; };
 		9373217826982BCE00860FC4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9373217726982BCE00860FC4 /* ContentView.swift */; };
 		9373219B2698C3A000860FC4 /* ColorChoice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9373219A2698C3A000860FC4 /* ColorChoice.swift */; };
+		9373219F269965D500860FC4 /* LinkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9373219E269965D500860FC4 /* LinkView.swift */; };
 		93C17ECF26981DCF00A468D1 /* ItemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C17EC226981DCE00A468D1 /* ItemsView.swift */; };
 		93C17ED026981DCF00A468D1 /* PersistenceProvider+Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C17EC326981DCE00A468D1 /* PersistenceProvider+Item.swift */; };
 		93C17ED226981DCF00A468D1 /* Array+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C17EC526981DCE00A468D1 /* Array+Convenience.swift */; };
@@ -32,6 +33,7 @@
 		934E6F3D2695657F00ABBDDA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9373217726982BCE00860FC4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		9373219A2698C3A000860FC4 /* ColorChoice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorChoice.swift; sourceTree = "<group>"; };
+		9373219E269965D500860FC4 /* LinkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkView.swift; sourceTree = "<group>"; };
 		93C17EC226981DCE00A468D1 /* ItemsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemsView.swift; sourceTree = "<group>"; };
 		93C17EC326981DCE00A468D1 /* PersistenceProvider+Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PersistenceProvider+Item.swift"; sourceTree = "<group>"; };
 		93C17EC526981DCE00A468D1 /* Array+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Convenience.swift"; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 		9373217526982B0C00860FC4 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				9373219E269965D500860FC4 /* LinkView.swift */,
 				93C17EC526981DCE00A468D1 /* Array+Convenience.swift */,
 				93C17EC226981DCE00A468D1 /* ItemsView.swift */,
 				93C17EC926981DCF00A468D1 /* TextInputView.swift */,
@@ -198,6 +201,7 @@
 				93C17ED526981DCF00A468D1 /* PersistenceProvider+Category.swift in Sources */,
 				93C17ED626981DCF00A468D1 /* TextInputView.swift in Sources */,
 				9373217826982BCE00860FC4 /* ContentView.swift in Sources */,
+				9373219F269965D500860FC4 /* LinkView.swift in Sources */,
 				93C17ED226981DCF00A468D1 /* Array+Convenience.swift in Sources */,
 				93C17ED826981DCF00A468D1 /* PersistenceProvider.swift in Sources */,
 				93C17ED726981DCF00A468D1 /* RateIt.xcdatamodeld in Sources */,

@@ -18,6 +18,7 @@ struct CategoryDetailView: View {
     @State private var itemName = ""
     @State private var itemRating = 1.0
     @State private var itemNotes = ""
+    @State private var itemLink = ""
 
     init(category: Category) {
         self.category = category
@@ -65,7 +66,7 @@ struct CategoryDetailView: View {
             // ADDING NEW ITEM
             .sheet(isPresented: $isAdding) {
                 NavigationView {
-                    AddItemView(itemText: $itemName, rating: $itemRating, notes: $itemNotes)
+                    AddItemView(itemText: $itemName, rating: $itemRating, notes: $itemNotes, link: $itemLink)
                         .navigationTitle(category.title ?? "")
                         .navigationBarItems(leading: Button("Cancel") {
                             isAdding = false
@@ -125,6 +126,7 @@ struct AddItemView: View {
     @Binding var itemText: String
     @Binding var rating: Double
     @Binding var notes: String
+    @Binding var link: String
 
     var body: some View {
         List {
@@ -142,6 +144,9 @@ struct AddItemView: View {
             }
             Section(header: Text("Notes")){
                 TextEditor(text: $notes)
+            }
+            Section(header: Text("Link")){
+                TextField("Link", text: $link)
             }
         }
         .listStyle(InsetGroupedListStyle())
