@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ItemsView: View {
+    let category: Category
     let items: FetchedResults<Item>
     let onSelect: (Item) -> Void
     let onDelete: ([Item]) -> Void
@@ -18,7 +19,7 @@ struct ItemsView: View {
         List {
             ForEach(items) { item in
                 NavigationLink(destination: ItemDetailView(item: item)) {
-                    ItemCardView(item: item)
+                    ItemCardView(item: item, category: category)
                 }
             }
             .onDelete { indexSet in onDelete(items.get(indexSet)) }
@@ -30,21 +31,21 @@ struct ItemsView: View {
 
 struct ItemCardView: View {
     @ObservedObject var item: Item
-    
+    @ObservedObject var category: Category
+
     var body: some View {
         HStack{
-            Text("\(item.rating)  ")
+            IconView(icon: "\(item.rating).circle.fill", color: item.category!.color!)
                 .font(.title)
-                .foregroundColor(.blue)
             Text(item.title ?? "")
                 .font(.headline)
+                .padding(.top).padding(.bottom)
             Spacer()
             if (item.favorite) {
                 Image(systemName: "star.fill")
                     .foregroundColor(Color.yellow )
             }
         }
-        .padding()
         .foregroundColor(.black)
     }
 }

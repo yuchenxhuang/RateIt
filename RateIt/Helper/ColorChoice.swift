@@ -12,18 +12,26 @@ struct ColorChoice: View {
     
     var body: some View {
         HStack{
+            /*
             Button(action: {
                 color = "white"
             }, label: {
                 Image(systemName: "circle")
-                    .foregroundColor(Color.gray)
+                    .foregroundColor(getColor(color: "gray"))
                     .font( color == "white" ? .title : .title3 )
+            }) */
+            Button(action: {
+                color = "black"
+            }, label: {
+                Image(systemName: "circle.fill")
+                    .foregroundColor(getColor(color: "black"))
+                    .font( color == "black" ? .title : .title3 )
             })
             Button(action: {
                 color = "red"
             }, label: {
                 Image(systemName: "circle.fill")
-                    .foregroundColor(Color.red)
+                    .foregroundColor(getColor(color: "red"))
                     .font( color == "red" ? .title : .title3 )
 
             })
@@ -31,15 +39,14 @@ struct ColorChoice: View {
                 color = "orange"
             }, label: {
                 Image(systemName: "circle.fill")
-                    .foregroundColor(Color.orange)
+                    .foregroundColor(getColor(color: "orange"))
                     .font( color == "orange" ? .title : .title3 )
-
             })
             Button(action: {
                 color = "yellow"
             }, label: {
                 Image(systemName: "circle.fill")
-                    .foregroundColor(Color.yellow)
+                    .foregroundColor(getColor(color: "yellow"))
                     .font( color == "yellow" ? .title : .title3 )
 
             })
@@ -47,7 +54,7 @@ struct ColorChoice: View {
                 color = "green"
             }, label: {
                 Image(systemName: "circle.fill")
-                    .foregroundColor(Color.green)
+                    .foregroundColor(getColor(color: "green"))
                     .font( color == "green" ? .title : .title3 )
 
             })
@@ -55,7 +62,7 @@ struct ColorChoice: View {
                 color = "blue"
             }, label: {
                 Image(systemName: "circle.fill")
-                    .foregroundColor(Color.blue)
+                    .foregroundColor(getColor(color: "blue"))
                     .font( color == "blue" ? .title : .title3 )
 
             })
@@ -63,16 +70,8 @@ struct ColorChoice: View {
                 color = "purple"
             }, label: {
                 Image(systemName: "circle.fill")
-                    .foregroundColor(Color.purple)
+                    .foregroundColor(getColor(color: "purple"))
                     .font( color == "purple" ? .title : .title3 )
-
-            })
-            Button(action: {
-                color = "black"
-            }, label: {
-                Image(systemName: "circle.fill")
-                    .foregroundColor(Color.black)
-                    .font( color == "black" ? .title : .title3 )
             })
         }
     }
@@ -80,24 +79,29 @@ struct ColorChoice: View {
 
 struct ColorChoice_Previews: PreviewProvider {
     static var previews: some View {
-        ColorChoice(color: .constant("white"))
+        ColorChoice(color: .constant("black"))
     }
 }
 
 func getColor(color: String) -> Color {
-    if color == "white" {return Color.white}
-    if color == "red" {return Color.red}
-    if color == "orange" {return Color.orange}
-    if color == "yellow" {return Color.yellow}
-    if color == "green" {return Color.green}
-    if color == "blue" {return Color.blue}
-    if color == "purple" {return Color.purple}
-    if color == "black" {return Color.black}
-    else {return Color.white}
+    //if color == "white" {return Color.white}
+    if color == "black" {return Color.black.opacity(1.0)}
+    if color == "red" {return Color.red.opacity(1.0)}
+    if color == "orange" {return Color.orange.opacity(1.0)}
+    if color == "yellow" {return Color.yellow.opacity(1.0)}
+    if color == "green" {return Color.green.opacity(1.0)}
+    if color == "blue" {return Color.blue.opacity(1.0)}
+    if color == "purple" {return Color.purple.opacity(1.0)}
+    if color == "gray" {return Color.gray.opacity(1.0)}
+    else {return Color.black}
 }
 
 func getTextColor(color: String) -> Color {
-    if color == "black" {return Color.white}
-    else {return Color.black}
+    return Color.black
+    /*if color == "black" {return Color.white}
+    else {
+        return Color.black
+        
+    }*/
 }
 

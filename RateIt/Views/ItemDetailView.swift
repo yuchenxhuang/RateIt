@@ -28,7 +28,7 @@ struct ItemDetailView: View {
                         .font(.title)//.bold()
                         .foregroundColor(Color.blue)
                     Spacer()
-                    Text(item.creationDate!, style: .date)
+                    Text(item.dateModified!, style: .date)
                     Spacer()
                     Image(systemName: item.favorite ? "star.fill" : "star")
                         .foregroundColor(item.favorite ? Color.yellow : Color.gray)
@@ -61,7 +61,7 @@ struct ItemDetailView: View {
             })
             .fullScreenCover(isPresented: $isPresented) {
                 NavigationView {
-                    ItemEditView(name: $newName, rating: $rating, notes: $notes, link: $link)
+                    ItemEditView(name: $newName, rating: $rating, notes: $notes, link: $link, color: item.category!.color!)
                         .navigationTitle(item.title ?? "")
                         .navigationBarItems(leading: Button("Cancel") {
                             isPresented = false

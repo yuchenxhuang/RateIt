@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct CategoryDetailView: View {
-    var category: Category
+    @ObservedObject var category: Category
     var items: FetchRequest<Item>
     
     @State private var isPresented = false
     @State private var isAdding = false
     @State private var catName = ""
-    @State private var catColor = "white"
+    @State private var catColor = "black"
     @State private var itemName = ""
     @State private var itemRating = 1.0
     @State private var itemNotes = ""
@@ -31,6 +31,7 @@ struct CategoryDetailView: View {
             // ITEMS LIST
             VStack {
                 ItemsView(
+                    category: category,
                     items: items.wrappedValue,
                     onSelect: { item in
                         //PersistenceProvider.default.update(item, with: "Edited")
@@ -45,14 +46,14 @@ struct CategoryDetailView: View {
                 Button("Edit") {
                     isPresented = true
                     catName = category.title ?? ""
-                    catColor = category.color ?? "white"
+                    catColor = category.color ?? "black"
                 }
             })
             
             // EDIT VIEW
             .fullScreenCover(isPresented: $isPresented) {
                 NavigationView {
-                    CategoryEditView(title: $catName, color: $catColor)
+                    CategoryEditView(category: category, title: $catName, color: $catColor)
                         .navigationTitle(category.title ?? "")
                         .navigationBarItems(leading: Button("Cancel") {
                             isPresented = false
@@ -66,7 +67,7 @@ struct CategoryDetailView: View {
             // ADDING NEW ITEM
             .sheet(isPresented: $isAdding) {
                 NavigationView {
-                    ItemEditView(name: $itemName, rating: $itemRating, notes: $itemNotes, link: $itemLink)
+                    ItemEditView(name: $itemName, rating: $itemRating, notes: $itemNotes, link: $itemLink, color: category.color!)
                         .navigationTitle(category.title ?? "")
                         .navigationBarItems(leading: Button("Cancel") {
                             isAdding = false
@@ -93,9 +94,14 @@ struct CategoryDetailView: View {
                     Button(action: {
                         isAdding = true
                     }, label: {
-                        Image(systemName: "plus.circle.fill")
-                        .font(.system(size: 50))
-                        .foregroundColor(Color.blue)
+                        ZStack {
+                            Image(systemName: "circle.fill")
+                                .font(.system(size: 50))
+                                .foregroundColor(Color.white)
+                            Image(systemName: "plus.circle.fill")
+                                .font(.system(size: 50))
+                                .foregroundColor(Color.blue)
+                        }
                     })
                     .padding(.trailing, 20)
                 }

@@ -12,6 +12,7 @@ struct ItemEditView: View {
     @Binding var rating: Double
     @Binding var notes: String
     @Binding var link: String
+    var color: String
 
     var body: some View {
         VStack {
@@ -20,13 +21,16 @@ struct ItemEditView: View {
                     TextField("Title", text: $name)
                 }
                 Section(header: Text("Rating")) {
+                    NumberChoice(rating: $rating)
+                        .foregroundColor(getColor(color:color))
+                    /*
                     HStack {
                         Slider(value: $rating, in: 1...10, step: 1.0) {
                             Text("Rating")
                         }
                         Spacer()
                         Text("\(Int16(rating))")
-                    }
+                    }*/
                 }
                 Section(header: Text("Notes")){
                     TextEditor(text: $notes)
@@ -35,6 +39,7 @@ struct ItemEditView: View {
                     TextEditor(text: $link)
                 }
             }
+            .buttonStyle(BorderlessButtonStyle())
             .listStyle(InsetGroupedListStyle())
         }
     }

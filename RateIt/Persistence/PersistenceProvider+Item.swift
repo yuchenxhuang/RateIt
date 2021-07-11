@@ -13,7 +13,7 @@ extension PersistenceProvider {
         request.predicate = NSPredicate(format: "%K == %@", #keyPath(Item.category), category)
         request.sortDescriptors = [
             NSSortDescriptor(keyPath: \Item.favorite, ascending: false),
-            NSSortDescriptor(keyPath: \Item.creationDate, ascending: false)
+            NSSortDescriptor(keyPath: \Item.dateModified, ascending: false)
         ]
         return request
     }
@@ -23,7 +23,8 @@ extension PersistenceProvider {
         let item = Item(context: context)
         item.title = title
         item.rating = rating
-        item.creationDate = Date()
+        item.dateAdded = Date()
+        item.dateModified = Date()
         item.notes = notes
         item.link = link
         item.favorite = false
@@ -42,6 +43,7 @@ extension PersistenceProvider {
         item.rating = rating
         item.notes = notes
         item.link = link
+        item.dateModified = Date()
         try? context.save()
     }
     

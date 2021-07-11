@@ -11,7 +11,7 @@ struct HomeView: View {
     @FetchRequest(fetchRequest: PersistenceProvider.default.allCategoriesRequest) var allLists: FetchedResults<Category>
     @State private var isPresented = false
     @State private var newName = ""
-    @State private var newColor = "white"
+    @State private var newColor = "black"
 
     var body: some View {
         ZStack {
@@ -21,12 +21,19 @@ struct HomeView: View {
                 List {
                     ForEach(allLists) { category in
                         NavigationLink(destination: CategoryDetailView(category: category)) {
-                            Text(category.title ?? "")
-                                .padding()
-                                .font(.headline)
-                                .foregroundColor( getTextColor(color: category.color ?? "white") )
+                            HStack() {
+                                IconView(icon: "star.circle.fill", color: category.color!)
+                                    //.padding(.leading)
+                                    .font(.title)
+                                Text(" \(category.title!)")
+                                    .padding(.top).padding(.bottom)
+                                    //.padding(.top).padding(.bottom).padding(.trailing)
+                                    .font(.headline)
+                                    //.foregroundColor( Color.black )
+                            }
+
                         }
-                        .listRowBackground( getColor(color: category.color ?? "white"))
+                        //.listRowBackground( getColor(color: category.color ?? "white"))
                     }
                     .onDelete(perform: { indexSet in
                         PersistenceProvider.default.delete(allLists.get(indexSet))
@@ -36,17 +43,17 @@ struct HomeView: View {
                 // ADD CATEGORY VIEW
                 .sheet(isPresented: $isPresented) {
                     NavigationView {
-                        CategoryEditView(title: $newName, color: $newColor)
+                        CategoryAddView(title: $newName, color: $newColor)
                             .navigationTitle("New Category")
                             .navigationBarItems(leading: Button("Cancel") {
                                 isPresented = false
                                 newName = ""
-                                newColor = "white"
+                                newColor = "black"
                             }, trailing: Button("Done") {
                                 isPresented = false
                                 if (newName != "") {PersistenceProvider.default.createCategory(with: newName, with: newColor)}
                                 newName = ""
-                                newColor = "white"
+                                newColor = "black"
                             })
                     }
                 }
@@ -61,9 +68,14 @@ struct HomeView: View {
                     Button(action: {
                         isPresented = true
                     }, label: {
-                        Image(systemName: "plus.circle.fill")
-                        .font(.system(size: 50))
-                        .foregroundColor(Color.blue)
+                        ZStack {
+                            Image(systemName: "circle.fill")
+                                .font(.system(size: 50))
+                                .foregroundColor(Color.white)
+                            Image(systemName: "plus.circle.fill")
+                                .font(.system(size: 50))
+                                .foregroundColor(Color.blue)
+                        }
                     })
                     .padding(.trailing, 20)
                 }

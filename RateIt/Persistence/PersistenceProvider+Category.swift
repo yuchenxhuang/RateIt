@@ -11,7 +11,7 @@ import CoreData
 extension PersistenceProvider {
     var allCategoriesRequest: NSFetchRequest<Category> {
         let request: NSFetchRequest<Category> = Category.fetchRequest()
-        request.sortDescriptors = [NSSortDescriptor(keyPath: \Category.creationDate, ascending: false)]
+        request.sortDescriptors = [NSSortDescriptor(keyPath: \Category.dateModified, ascending: false)]
         return request
     }
     
@@ -20,7 +20,8 @@ extension PersistenceProvider {
         let category = Category(context: context)
         category.title = title
         category.color = color
-        category.creationDate = Date()
+        category.dateAdded = Date()
+        category.dateModified = Date()
         try? context.save()
         return category
     }
@@ -28,6 +29,7 @@ extension PersistenceProvider {
     func update(_ category: Category, with title: String, with color: String) {
         category.title = title
         category.color = color
+        category.dateModified = Date()
         try? context.save()
     }
     
