@@ -12,6 +12,14 @@ struct HomeView: View {
     @State private var isPresented = false
     @State private var newName = ""
     @State private var newColor = "black"
+    
+    init() {
+        //Use this if NavigationBarTitle is with Large Font
+        UINavigationBar.appearance().largeTitleTextAttributes = [.font : UIFont(name: "JosefinSans-Bold", size: 34)!]
+
+        //Use this if NavigationBarTitle is with displayMode = .inline
+        //UINavigationBar.appearance().titleTextAttributes = [.font : UIFont(name: "JosefinSans-Bold", size: 20)!]
+    }
 
     var body: some View {
         ZStack {
@@ -21,24 +29,14 @@ struct HomeView: View {
                 List {
                     ForEach(allLists) { category in
                         NavigationLink(destination: CategoryDetailView(category: category)) {
-                            HStack() {
-                                IconView(icon: "star.circle.fill", color: category.color!)
-                                    //.padding(.leading)
-                                    .font(.title)
-                                Text(" \(category.title!)")
-                                    .padding(.top).padding(.bottom)
-                                    //.padding(.top).padding(.bottom).padding(.trailing)
-                                    .font(.headline)
-                                    //.foregroundColor( Color.black )
-                            }
-
+                            CategoryCardView(category: category)
                         }
-                        //.listRowBackground( getColor(color: category.color ?? "white"))
                     }
                     .onDelete(perform: { indexSet in
                         PersistenceProvider.default.delete(allLists.get(indexSet))
                     })
                 }
+                .listStyle(InsetGroupedListStyle())
                 
                 // ADD CATEGORY VIEW
                 .sheet(isPresented: $isPresented) {
@@ -81,5 +79,21 @@ struct HomeView: View {
                 }
             }
         }
+    }
+}
+
+struct CategoryCardView: View {
+    @ObservedObject var category: Category
+
+    var body: some View {
+        HStack{
+            IconView(icon: "star.circle.fill", color: category.color!)
+                .font(.title)
+            Text(category.title ?? "")
+                //.font(.headline)
+                .padding(.top).padding(.bottom)
+                .font(.custom("JosefinSans-Regular", size: 20, relativeTo: .headline))
+        }
+        .foregroundColor(.black)
     }
 }

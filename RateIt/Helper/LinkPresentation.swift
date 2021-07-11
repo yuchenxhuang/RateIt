@@ -1,5 +1,5 @@
 //
-//  LinkView.swift
+//  LinkPresentation.swift
 //  RateIt
 //
 //  Created by Yu-Chen Huang on 7/10/21.

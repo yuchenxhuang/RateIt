@@ -38,8 +38,10 @@ struct ItemCardView: View {
             IconView(icon: "\(item.rating).circle.fill", color: item.category!.color!)
                 .font(.title)
             Text(item.title ?? "")
-                .font(.headline)
+                //.font(.headline)
                 .padding(.top).padding(.bottom)
+                .font(.custom("JosefinSans-Regular", size: 20, relativeTo: .headline))
+
             Spacer()
             if (item.favorite) {
                 Image(systemName: "star.fill")

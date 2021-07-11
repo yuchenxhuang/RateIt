@@ -20,13 +20,13 @@ struct ItemDetailView: View {
             VStack (alignment: .leading, spacing: 10){
                 HStack() {
                     Text(item.title!)
-                        .font(.largeTitle).bold()
-                        //.padding()
+                        .font(.custom("JosefinSans-Bold", size: 34, relativeTo: .title))
                 }
                 HStack() {
-                    Text("\(item.rating) / 10")
-                        .font(.title)//.bold()
-                        .foregroundColor(Color.blue)
+                    //Text("\(item.rating) / 10")
+                    IconView(icon: "\(item.rating).circle.fill", color: item.category!.color!)
+                        .font(.largeTitle)
+                        .foregroundColor(getColor(color: item.category!.color!))
                     Spacer()
                     Text(item.dateModified!, style: .date)
                     Spacer()
@@ -35,16 +35,17 @@ struct ItemDetailView: View {
                         .onTapGesture { PersistenceProvider.default.toggle(item)}
                         .font(.title)
                 }
+                .padding(.leading).padding(.trailing)
                 Divider()
                 Text("Notes")
-                    .bold().font(.title2)
+                    .font(.custom("JosefinSans-Bold", size: 22, relativeTo: .title2))
+
                 Text( (item.notes != nil && item.notes != "") ? item.notes! : "No notes yet" )
                 
                 if ( item.link != nil && item.link != "" ) {
                     Divider()
                     Text("Link")
-                        .bold().font(.title2)
-                    //Text( (item.link != nil && item.link != "") ? item.link! : "No link yet" )
+                        .font(.custom("JosefinSans-Bold", size: 22, relativeTo: .title2))
                     LinkPresentationView(link: item.link!)
                 }
             }
