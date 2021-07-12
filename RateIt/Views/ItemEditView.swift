@@ -12,6 +12,7 @@ struct ItemEditView: View {
     @Binding var rating: Double
     @Binding var notes: String
     @Binding var link: String
+    @Binding var date: Date
     var color: String
 
     var body: some View {
@@ -23,20 +24,22 @@ struct ItemEditView: View {
                 Section(header: Text("Rating")) {
                     NumberChoice(rating: $rating)
                         .foregroundColor(getColor(color:color))
-                    /*
-                    HStack {
-                        Slider(value: $rating, in: 1...10, step: 1.0) {
-                            Text("Rating")
-                        }
-                        Spacer()
-                        Text("\(Int16(rating))")
-                    }*/
                 }
                 Section(header: Text("Notes")){
                     TextEditor(text: $notes)
                 }
                 Section(header: Text("Link")){
                     TextEditor(text: $link)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                Section(header: Text("Date")) {
+                    DatePicker(
+                        "Date",
+                        selection: $date,
+                        displayedComponents: [.date]
+                    )
+                    .labelsHidden()
+
                 }
             }
             .buttonStyle(BorderlessButtonStyle())

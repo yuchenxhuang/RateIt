@@ -10,22 +10,31 @@ import SwiftUI
 struct ItemsView: View {
     let category: Category
     let items: FetchedResults<Item>
-    let onSelect: (Item) -> Void
+    //let onSelect: (Item) -> Void
     let onDelete: ([Item]) -> Void
     
+    //@Binding var listViewId: UUID
+    @State private var listViewId = UUID()
     @State var showAlertDelete = false
+    
+    private func refresh() {
+        listViewId = UUID()
+    }
 
     var body: some View {
-        List {
-            ForEach(items) { item in
-                NavigationLink(destination: ItemDetailView(item: item)) {
-                    ItemCardView(item: item, category: category)
+        VStack {
+            List {
+                ForEach(items) { item in
+                    NavigationLink(destination: ItemDetailView(item: item) /*.onAppear {refresh()}*/ ) {
+                        ItemCardView(item: item, category: category)
+                    }
                 }
+                .onDelete { indexSet in onDelete(items.get(indexSet)) }
             }
-            .onDelete { indexSet in onDelete(items.get(indexSet)) }
+            .buttonStyle(BorderlessButtonStyle())
+            .listStyle(InsetGroupedListStyle())
+            //.id(listViewId)
         }
-        .listStyle(InsetGroupedListStyle())
-
     }
 }
 
@@ -38,7 +47,6 @@ struct ItemCardView: View {
             IconView(icon: "\(item.rating).circle.fill", color: item.category!.color!)
                 .font(.title)
             Text(item.title ?? "")
-                //.font(.headline)
                 .padding(.top).padding(.bottom)
                 .font(.custom("JosefinSans-Regular", size: 20, relativeTo: .headline))
 
@@ -48,6 +56,7 @@ struct ItemCardView: View {
                     .foregroundColor(Color.yellow )
             }
         }
+        .buttonStyle(PlainButtonStyle())
         .foregroundColor(.black)
     }
 }

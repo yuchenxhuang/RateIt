@@ -15,10 +15,13 @@ struct CategoryDetailView: View {
     @State private var isAdding = false
     @State private var catName = ""
     @State private var catColor = "black"
+    @State private var catIcon = "circle.fill"
+    
     @State private var itemName = ""
     @State private var itemRating = 1.0
     @State private var itemNotes = ""
     @State private var itemLink = ""
+    @State private var itemDate = Date()
 
     init(category: Category) {
         self.category = category
@@ -29,37 +32,41 @@ struct CategoryDetailView: View {
         ZStack {
             
             // ITEMS LIST
+            
             VStack {
                 ItemsView(
                     category: category,
                     items: items.wrappedValue,
-                    onSelect: { item in
+                    //onSelect: { item in
                         //PersistenceProvider.default.update(item, with: "Edited")
-                    },
+                    //},
                     onDelete: { items in
                         PersistenceProvider.default.delete(items)
                     }
                 )
+
             }
+            .buttonStyle(PlainButtonStyle())
             .navigationTitle(category.title ?? "")
             .navigationBarItems(trailing: HStack {
                 Button("Edit") {
                     isPresented = true
                     catName = category.title ?? ""
                     catColor = category.color ?? "black"
+                    catIcon = category.icon ?? "circle.fill"
                 }
             })
             
             // EDIT VIEW
             .fullScreenCover(isPresented: $isPresented) {
                 NavigationView {
-                    CategoryEditView(category: category, title: $catName, color: $catColor)
+                    CategoryEditView(category: category, title: $catName, color: $catColor, icon: $catIcon)
                         .navigationTitle(category.title ?? "")
                         .navigationBarItems(leading: Button("Cancel") {
                             isPresented = false
                         }, trailing: Button("Done") {
                             isPresented = false
-                            if (catName != "") { PersistenceProvider.default.update(category, with: catName, with: catColor) }
+                            if (catName != "") { PersistenceProvider.default.update(category, with: catName, with: catColor ?? "black", with: catIcon ?? "circle.fill") }
                         })
                 }
             }
@@ -67,7 +74,7 @@ struct CategoryDetailView: View {
             // ADDING NEW ITEM
             .sheet(isPresented: $isAdding) {
                 NavigationView {
-                    ItemEditView(name: $itemName, rating: $itemRating, notes: $itemNotes, link: $itemLink, color: category.color!)
+                    ItemEditView(name: $itemName, rating: $itemRating, notes: $itemNotes, link: $itemLink, date: $itemDate, color: category.color!)
                         .navigationTitle(category.title ?? "")
                         .navigationBarItems(leading: Button("Cancel") {
                             isAdding = false

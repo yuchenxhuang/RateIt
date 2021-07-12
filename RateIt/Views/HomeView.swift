@@ -12,7 +12,8 @@ struct HomeView: View {
     @State private var isPresented = false
     @State private var newName = ""
     @State private var newColor = "black"
-    
+    @State private var icon = "circle.fill"
+
     init() {
         //Use this if NavigationBarTitle is with Large Font
         UINavigationBar.appearance().largeTitleTextAttributes = [.font : UIFont(name: "JosefinSans-Bold", size: 34)!]
@@ -41,17 +42,19 @@ struct HomeView: View {
                 // ADD CATEGORY VIEW
                 .sheet(isPresented: $isPresented) {
                     NavigationView {
-                        CategoryAddView(title: $newName, color: $newColor)
+                        CategoryAddView(title: $newName, color: $newColor, icon: $icon)
                             .navigationTitle("New Category")
                             .navigationBarItems(leading: Button("Cancel") {
                                 isPresented = false
                                 newName = ""
                                 newColor = "black"
+                                icon = "circle.fill"
                             }, trailing: Button("Done") {
                                 isPresented = false
-                                if (newName != "") {PersistenceProvider.default.createCategory(with: newName, with: newColor)}
+                                if (newName != "") {PersistenceProvider.default.createCategory(with: newName, with: newColor, with: icon)}
                                 newName = ""
                                 newColor = "black"
+                                icon = "circle.fill"
                             })
                     }
                 }
@@ -87,7 +90,7 @@ struct CategoryCardView: View {
 
     var body: some View {
         HStack{
-            IconView(icon: "star.circle.fill", color: category.color!)
+            IconView(icon: category.icon ?? "circle.fill", color: category.color ?? "black")
                 .font(.title)
             Text(category.title ?? "")
                 //.font(.headline)

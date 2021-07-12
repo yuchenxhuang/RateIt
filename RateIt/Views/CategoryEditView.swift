@@ -12,6 +12,7 @@ struct CategoryEditView: View {
 
     @Binding var title: String
     @Binding var color: String
+    @Binding var icon: String
 
     var body: some View {
         List {
@@ -20,6 +21,9 @@ struct CategoryEditView: View {
             }
             Section(header: Text("Color")) {
                 ColorChoice(color: $color)
+            }
+            Section(header: Text("Icon")) {
+                IconChoice(icon: $icon, color: color)
             }
         }
         .buttonStyle(BorderlessButtonStyle())
@@ -30,6 +34,7 @@ struct CategoryEditView: View {
 struct CategoryAddView: View {
     @Binding var title: String
     @Binding var color: String
+    @Binding var icon: String
 
     var body: some View {
         List {
@@ -38,6 +43,9 @@ struct CategoryAddView: View {
             }
             Section(header: Text("Color")) {
                 ColorChoice(color: $color)
+            }
+            Section(header: Text("Icon")) {
+                IconChoice(icon: $icon, color: color)
             }
         }
         .buttonStyle(BorderlessButtonStyle())

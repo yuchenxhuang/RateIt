@@ -38,12 +38,13 @@ extension PersistenceProvider {
         try? context.save()
     }
     
-    func update(_ item: Item, with title: String, with rating: Int16, with notes: String, with link: String) {
+    func update(_ item: Item, with title: String, with rating: Int16, with notes: String, with link: String, with dateAdded: Date) {
         item.title = title
         item.rating = rating
         item.notes = notes
         item.link = link
         item.dateModified = Date()
+        item.dateAdded = dateAdded
         try? context.save()
     }
     

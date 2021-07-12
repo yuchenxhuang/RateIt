@@ -14,32 +14,41 @@ struct ItemDetailView: View {
     @State private var rating = 1.0
     @State private var notes = ""
     @State private var link = ""
+    @State private var date = Date()
+
 
     var body: some View {
         ScrollView() {
-            VStack (alignment: .leading, spacing: 10){
+            VStack (alignment: .leading){
                 HStack() {
+                    Spacer()
                     Text(item.title!)
+                        .multilineTextAlignment(. center)
                         .font(.custom("JosefinSans-Bold", size: 34, relativeTo: .title))
+                    Spacer()
                 }
                 HStack() {
                     //Text("\(item.rating) / 10")
+                    Spacer()
                     IconView(icon: "\(item.rating).circle.fill", color: item.category!.color!)
                         .font(.largeTitle)
                         .foregroundColor(getColor(color: item.category!.color!))
                     Spacer()
-                    Text(item.dateModified!, style: .date)
+                    //Text(item.dateModified!, style: .date)
+                    Text(item.dateAdded!, style: .date)
                     Spacer()
                     Image(systemName: item.favorite ? "star.fill" : "star")
                         .foregroundColor(item.favorite ? Color.yellow : Color.gray)
                         .onTapGesture { PersistenceProvider.default.toggle(item)}
                         .font(.title)
+                    Spacer()
                 }
                 .padding(.leading).padding(.trailing)
                 Divider()
                 Text("Notes")
                     .font(.custom("JosefinSans-Bold", size: 22, relativeTo: .title2))
-
+                    .fixedSize(horizontal: false, vertical: true)
+                
                 Text( (item.notes != nil && item.notes != "") ? item.notes! : "No notes yet" )
                 
                 if ( item.link != nil && item.link != "" ) {
@@ -62,14 +71,14 @@ struct ItemDetailView: View {
             })
             .fullScreenCover(isPresented: $isPresented) {
                 NavigationView {
-                    ItemEditView(name: $newName, rating: $rating, notes: $notes, link: $link, color: item.category!.color!)
+                    ItemEditView(name: $newName, rating: $rating, notes: $notes, link: $link, date: $date, color: item.category!.color!)
                         .navigationTitle(item.title ?? "")
                         .navigationBarItems(leading: Button("Cancel") {
                             isPresented = false
                         }, trailing: Button("Done") {
                             isPresented = false
                             if (newName != "") {
-                                PersistenceProvider.default.update(item, with: newName, with: Int16(rating), with: notes, with: link)
+                                PersistenceProvider.default.update(item, with: newName, with: Int16(rating), with: notes, with: link, with: date)
                             }
                         })
                 }
