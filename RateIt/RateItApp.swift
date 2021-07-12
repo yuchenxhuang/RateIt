@@ -26,6 +26,4 @@ struct RateItApp: App {
                 .environment(\.managedObjectContext, PersistenceProvider.default.context)
         }
     }
-    
-
 }

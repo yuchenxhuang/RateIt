@@ -10,14 +10,21 @@ import SwiftUI
 struct HomeView: View {
     @FetchRequest(fetchRequest: PersistenceProvider.default.allCategoriesRequest) var allLists: FetchedResults<Category>
     @State private var isPresented = false
-    @State private var newName = ""
-    @State private var newColor = "black"
+    @State private var name = ""
+    @State private var color = "black"
     @State private var icon = "circle.fill"
 
     init() {
         UINavigationBar.appearance().largeTitleTextAttributes = [.font : UIFont(name: "JosefinSans-Bold", size: 34)!]
     }
 
+    private func reset() {
+        isPresented = false
+        name = ""
+        color = "black"
+        icon = "circle.fill"
+    }
+    
     var body: some View {
         ZStack {
             
@@ -38,19 +45,13 @@ struct HomeView: View {
                 // ADD CATEGORY VIEW
                 .sheet(isPresented: $isPresented) {
                     NavigationView {
-                        CategoryAddView(title: $newName, color: $newColor, icon: $icon)
+                        CategoryAddView(title: $name, color: $color, icon: $icon)
                             .navigationTitle("New Category")
                             .navigationBarItems(leading: Button("Cancel") {
-                                isPresented = false
-                                newName = ""
-                                newColor = "black"
-                                icon = "circle.fill"
+                                reset()
                             }, trailing: Button("Done") {
-                                isPresented = false
-                                if (newName != "") {PersistenceProvider.default.createCategory(with: newName, with: newColor, with: icon)}
-                                newName = ""
-                                newColor = "black"
-                                icon = "circle.fill"
+                                if (name != "") {PersistenceProvider.default.createCategory(with: name, with: color, with: icon)}
+                                reset()
                             })
                     }
                 }

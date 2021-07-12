@@ -46,12 +46,12 @@ func getColor(color: String) -> Color {
     else {return Color.black}
 }
 
+/*
 func getTextColor(color: String) -> Color {
     return Color.black
-    /*if color == "black" {return Color.white}
+    if color == "black" {return Color.white}
     else {
         return Color.black
-        
-    }*/
+    }
 }
-
+ */

@@ -113,11 +113,11 @@
 				934E6F2F2695657B00ABBDDA /* RateItApp.swift */,
 				9373217726982BCE00860FC4 /* ContentView.swift */,
 				934E6F3D2695657F00ABBDDA /* Info.plist */,
-				93AEB0A9269ACA5900D0E774 /* JosefinSans */,
 				9373217426982B0000860FC4 /* Views */,
 				936F5BF02695746300582A78 /* Persistence */,
-				9373217526982B0C00860FC4 /* Helper */,
+				9373217526982B0C00860FC4 /* Helpers */,
 				934E6F332695657F00ABBDDA /* Assets.xcassets */,
+				93AEB0A9269ACA5900D0E774 /* JosefinSans */,
 				934E6F352695657F00ABBDDA /* Preview Content */,
 			);
 			path = RateIt;
@@ -155,7 +155,7 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		9373217526982B0C00860FC4 /* Helper */ = {
+		9373217526982B0C00860FC4 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
 				93C17EC526981DCE00A468D1 /* Array+Convenience.swift */,
@@ -164,7 +164,7 @@
 				937321A4269A553400860FC4 /* IconChoice.swift */,
 				937321A6269A835C00860FC4 /* NumberChoice.swift */,
 			);
-			path = Helper;
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		93AEB0A9269ACA5900D0E774 /* JosefinSans */ = {

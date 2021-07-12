@@ -28,6 +28,14 @@ struct CategoryDetailView: View {
         self.items = FetchRequest<Item>(fetchRequest: PersistenceProvider.default.itemsRequest(for: category))
     }
     
+    private func reset() {
+        isAdding = false
+        itemName = ""
+        itemRating = 1.0
+        itemNotes = ""
+        itemLink = ""
+    }
+    
     var body: some View {
         ZStack {
             
@@ -77,18 +85,10 @@ struct CategoryDetailView: View {
                     ItemEditView(name: $itemName, rating: $itemRating, notes: $itemNotes, link: $itemLink, date: $itemDate, color: category.color!)
                         .navigationTitle(category.title ?? "")
                         .navigationBarItems(leading: Button("Cancel") {
-                            isAdding = false
-                            itemName = ""
-                            itemRating = 1.0
-                            itemNotes = ""
-                            itemLink = ""
+                            reset()
                         }, trailing: Button("Done") {
-                            isAdding = false
                             if (itemName != "") {PersistenceProvider.default.createItem(with: itemName, with: Int16(itemRating), with: itemNotes, with: itemLink,  in: category)}
-                            itemName = ""
-                            itemRating = 1.0
-                            itemNotes = ""
-                            itemLink = ""
+                            reset()
                         })
                 }
             }

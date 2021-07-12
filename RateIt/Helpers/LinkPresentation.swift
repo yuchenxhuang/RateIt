@@ -9,9 +9,8 @@ import SwiftUI
 import LinkPresentation
 
 struct LinkPresentationView: View {
-    //var links: [String] = ["https://www.nytimes.com/"]
+    //var links: [String]
     var link: String
-    //var link: String = "https://www.nytimes.com/"
     var body: some View {
         LinkView(url: URL(string: link)!)
     }
@@ -19,7 +18,6 @@ struct LinkPresentationView: View {
 
 struct LinkView: UIViewRepresentable {
     typealias UIViewType = LPLinkView
-
     var url: URL
 
     func makeUIView(context: UIViewRepresentableContext<LinkView>) -> LinkView.UIViewType {
@@ -27,25 +25,19 @@ struct LinkView: UIViewRepresentable {
     }
 
     func updateUIView(_ uiView: LinkView.UIViewType, context: UIViewRepresentableContext<LinkView>) {
-
         if let cachedData = MetaCache.retrieve(urlString: url.absoluteString) {
             uiView.metadata = cachedData
             uiView.sizeToFit()
         } else {
-
             let provider = LPMetadataProvider()
-
             provider.startFetchingMetadata(for: url) { metadata, error in
                 guard let metadata = metadata, error == nil else {
                     return
                 }
-
                 MetaCache.cache(metadata: metadata)
-
                 DispatchQueue.main.async {
                 uiView.metadata = metadata
                 uiView.sizeToFit()
-
                 }
             }
         }
@@ -54,9 +46,7 @@ struct LinkView: UIViewRepresentable {
 
 
 struct MetaCache {
-
     static func cache(metadata: LPLinkMetadata) {
-
         do {
             let data = try NSKeyedArchiver.archivedData(withRootObject: metadata, requiringSecureCoding: true)
             UserDefaults.standard.setValue(data, forKey: metadata.url!.absoluteString)
@@ -72,7 +62,6 @@ struct MetaCache {
             let metadata = try NSKeyedUnarchiver.unarchivedObject(ofClass: LPLinkMetadata.self, from: data) else { return nil }
             return metadata
         }
-
         catch let error {
             print("Error when cachine: \(error.localizedDescription)")
             return nil

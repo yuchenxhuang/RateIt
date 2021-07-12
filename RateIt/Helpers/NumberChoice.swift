@@ -24,6 +24,7 @@ struct NumberChoice: View {
         }
     }
 }
+
 struct NumberChoice_Previews: PreviewProvider {
     static var previews: some View {
         NumberChoice(rating: .constant(1.0))
