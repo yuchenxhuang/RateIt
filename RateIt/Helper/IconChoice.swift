@@ -11,158 +11,55 @@ struct IconChoice: View {
     @Binding var icon: String
     var color: String
     
+    let icons1 = ["circle.fill", "star.circle.fill", "heart.circle.fill", "face.smiling.fill", "exclamationmark.circle.fill", "questionmark.circle.fill", "number.circle.fill","at.circle.fill", "dollarsign.circle.fill", "staroflife.circle.fill"]
+    let icons2 = ["folder.circle.fill", "book.circle.fill", "bookmark.circle.fill", "person.circle.fill", "pin.circle.fill", "cart.circle.fill", "airplane.circle.fill", "tv.circle.fill", "house.circle.fill", "bolt.circle.fill"]
+
     var body: some View {
-        
-        VStack{
+        VStack {
             HStack{
-                Button(action: {
-                    icon = "circle.fill"
-                }, label: {
-                    Image(systemName: "circle.fill")
-                        .foregroundColor(getColor(color: color))
-                        .font( icon == "circle.fill" ? .title : .title3 )
-                })
-                Button(action: {
-                    icon = "star.circle.fill"
-                }, label: {
-                    Image(systemName: "star.circle.fill")
-                        .foregroundColor(getColor(color: color))
-                        .font( icon == "star.circle.fill" ? .title : .title3 )
-                })
-                Button(action: {
-                    icon = "heart.circle.fill"
-                }, label: {
-                    Image(systemName: "heart.circle.fill")
-                        .foregroundColor(getColor(color: color))
-                        .font( icon == "heart.circle.fill" ? .title : .title3 )
-                })
-                Button(action: {
-                    icon = "face.smiling.fill"
-                }, label: {
-                    Image(systemName: "face.smiling.fill")
-                        .foregroundColor(getColor(color: color))
-                        .font( icon == "face.smiling.fill" ? .title : .title3 )
-                })
-                Button(action: {
-                    icon = "exclamationmark.circle.fill"
-                }, label: {
-                    Image(systemName: "exclamationmark.circle.fill")
-                        .foregroundColor(getColor(color: color))
-                        .font( icon == "exclamationmark.circle.fill" ? .title : .title3 )
-                })
-                Button(action: {
-                    icon = "questionmark.circle.fill"
-                }, label: {
-                    Image(systemName: "questionmark.circle.fill")
-                        .foregroundColor(getColor(color: color))
-                        .font( icon == "questionmark.circle.fill" ? .title : .title3 )
-                })
-                Button(action: {
-                    icon = "number.circle.fill"
-                }, label: {
-                    Image(systemName: "number.circle.fill")
-                        .foregroundColor(getColor(color: color))
-                        .font( icon == "number.circle.fill" ? .title : .title3 )
-                })
-                Button(action: {
-                    icon = "at.circle.fill"
-                }, label: {
-                    Image(systemName: "at.circle.fill")
-                        .foregroundColor(getColor(color: color))
-                        .font( icon == "at.circle.fill" ? .title : .title3 )
-                })
-                Button(action: {
-                    icon = "dollarsign.circle.fill"
-                }, label: {
-                    Image(systemName: "dollarsign.circle.fill")
-                        .foregroundColor(getColor(color: color))
-                        .font( icon == "dollarsign.circle.fill" ? .title : .title3 )
-                })
-                Button(action: {
-                    icon = "staroflife.circle.fill"
-                }, label: {
-                    Image(systemName: "staroflife.circle.fill")
-                        .foregroundColor(getColor(color: color))
-                        .font( icon == "staroflife.circle.fill" ? .title : .title3 )
-                })
+                ForEach(icons1, id: \.self) { choice in
+                    Button(action: {
+                        icon = choice
+                    }, label: {
+                        Image(systemName: choice)
+                            .foregroundColor(getColor(color: color))
+                            .font( icon == choice ? .title : .title3 )
+                    })
+                }
             }
             .padding(.bottom, 2)
             HStack{
-                Button(action: {
-                    icon = "folder.circle.fill"
-                }, label: {
-                    Image(systemName: "folder.circle.fill")
-                        .foregroundColor(getColor(color: color))
-                        .font( icon == "folder.circle.fill" ? .title : .title3 )
-                })
-                Button(action: {
-                    icon = "book.circle.fill"
-                }, label: {
-                    Image(systemName: "book.circle.fill")
-                        .foregroundColor(getColor(color: color))
-                        .font( icon == "book.circle.fill" ? .title : .title3 )
-                })
-                Button(action: {
-                    icon = "bookmark.circle.fill"
-                }, label: {
-                    Image(systemName: "bookmark.circle.fill")
-                        .foregroundColor(getColor(color: color))
-                        .font( icon == "bookmark.circle.fill" ? .title : .title3 )
-                })
-                Button(action: {
-                    icon = "person.circle.fill"
-                }, label: {
-                    Image(systemName: "person.circle.fill")
-                        .foregroundColor(getColor(color: color))
-                        .font( icon == "person.circle.fill" ? .title : .title3 )
-                })
-                Button(action: {
-                    icon = "pin.circle.fill"
-                }, label: {
-                    Image(systemName: "pin.circle.fill")
-                        .foregroundColor(getColor(color: color))
-                        .font( icon == "pin.circle.fill" ? .title : .title3 )
-                })
-                Button(action: {
-                    icon = "cart.circle.fill"
-                }, label: {
-                    Image(systemName: "cart.circle.fill")
-                        .foregroundColor(getColor(color: color))
-                        .font( icon == "cart.circle.fill" ? .title : .title3 )
-                })
-                Button(action: {
-                    icon = "airplane.circle.fill"
-                }, label: {
-                    Image(systemName: "airplane.circle.fill")
-                        .foregroundColor(getColor(color: color))
-                        .font( icon == "airplane.circle.fill" ? .title : .title3 )
-                })
-                Button(action: {
-                    icon = "tv.circle.fill"
-                }, label: {
-                    Image(systemName: "tv.circle.fill")
-                        .foregroundColor(getColor(color: color))
-                        .font( icon == "tv.circle.fill" ? .title : .title3 )
-                })
-                Button(action: {
-                    icon = "house.circle.fill"
-                }, label: {
-                    Image(systemName: "house.circle.fill")
-                        .foregroundColor(getColor(color: color))
-                        .font( icon == "house.circle.fill" ? .title : .title3 )
-                })
-                Button(action: {
-                    icon = "bolt.circle.fill"
-                }, label: {
-                    Image(systemName: "bolt.circle.fill")
-                        .foregroundColor(getColor(color: color))
-                        .font( icon == "bolt.circle.fill" ? .title : .title3 )
-                })
+                ForEach(icons2, id: \.self) { choice in
+                    Button(action: {
+                        icon = choice
+                    }, label: {
+                        Image(systemName: choice)
+                            .foregroundColor(getColor(color: color))
+                            .font( icon == choice ? .title : .title3 )
+                    })
+                }
             }
         }
     }
 }
 
+struct IconView: View {
+    var icon: String
+    var color: String
+
+    var body: some View {
+        Image(systemName: icon)
+            .foregroundColor(getColor(color:color) )
+    }
+}
+
+struct IconChoice_Previews: PreviewProvider {
+    static var previews: some View {
+        IconChoice(icon: .constant("circle.fill"), color: "black")
+    }
+}
+
+/*
 struct IconChoice_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
@@ -231,14 +128,4 @@ struct IconChoice_Previews: PreviewProvider {
         }
     }
 }
-
-struct IconView: View {
-    var icon: String
-    var color: String
-
-    var body: some View {
-        Image(systemName: icon)
-            .foregroundColor(getColor(color:color) )
-    }
-}
-
+*/

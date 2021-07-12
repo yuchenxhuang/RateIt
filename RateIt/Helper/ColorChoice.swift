@@ -9,62 +9,20 @@ import SwiftUI
 
 struct ColorChoice: View {
     @Binding var color: String
+    let colors = ["black", "red", "orange", "yellow", "green", "blue", "purple"]
     
     var body: some View {
         HStack{
-            Button(action: {
-                color = "black"
-            }, label: {
-                Image(systemName: "circle.fill")
-                    .foregroundColor(getColor(color: "black"))
-                    .font( color == "black" ? .title : .title3 )
-            })
-            Button(action: {
-                color = "red"
-            }, label: {
-                Image(systemName: "circle.fill")
-                    .foregroundColor(getColor(color: "red"))
-                    .font( color == "red" ? .title : .title3 )
-
-            })
-            Button(action: {
-                color = "orange"
-            }, label: {
-                Image(systemName: "circle.fill")
-                    .foregroundColor(getColor(color: "orange"))
-                    .font( color == "orange" ? .title : .title3 )
-            })
-            Button(action: {
-                color = "yellow"
-            }, label: {
-                Image(systemName: "circle.fill")
-                    .foregroundColor(getColor(color: "yellow"))
-                    .font( color == "yellow" ? .title : .title3 )
-
-            })
-            Button(action: {
-                color = "green"
-            }, label: {
-                Image(systemName: "circle.fill")
-                    .foregroundColor(getColor(color: "green"))
-                    .font( color == "green" ? .title : .title3 )
-
-            })
-            Button(action: {
-                color = "blue"
-            }, label: {
-                Image(systemName: "circle.fill")
-                    .foregroundColor(getColor(color: "blue"))
-                    .font( color == "blue" ? .title : .title3 )
-
-            })
-            Button(action: {
-                color = "purple"
-            }, label: {
-                Image(systemName: "circle.fill")
-                    .foregroundColor(getColor(color: "purple"))
-                    .font( color == "purple" ? .title : .title3 )
-            })
+            
+            ForEach(colors, id: \.self) { choice in
+                Button(action: {
+                    color = choice
+                }, label: {
+                    Image(systemName: "circle.fill")
+                        .foregroundColor(getColor(color: choice))
+                        .font( color == choice ? .title : .title3 )
+                })
+            }
         }
     }
 }
