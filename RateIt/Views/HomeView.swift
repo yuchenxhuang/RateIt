@@ -15,11 +15,7 @@ struct HomeView: View {
     @State private var icon = "circle.fill"
 
     init() {
-        //Use this if NavigationBarTitle is with Large Font
         UINavigationBar.appearance().largeTitleTextAttributes = [.font : UIFont(name: "JosefinSans-Bold", size: 34)!]
-
-        //Use this if NavigationBarTitle is with displayMode = .inline
-        //UINavigationBar.appearance().titleTextAttributes = [.font : UIFont(name: "JosefinSans-Bold", size: 20)!]
     }
 
     var body: some View {

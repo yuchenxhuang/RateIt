@@ -9,7 +9,6 @@ import SwiftUI
 
 struct CategoryEditView: View {
     @ObservedObject var category: Category
-
     @Binding var title: String
     @Binding var color: String
     @Binding var icon: String

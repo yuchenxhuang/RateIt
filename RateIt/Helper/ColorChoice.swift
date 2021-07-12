@@ -12,14 +12,6 @@ struct ColorChoice: View {
     
     var body: some View {
         HStack{
-            /*
-            Button(action: {
-                color = "white"
-            }, label: {
-                Image(systemName: "circle")
-                    .foregroundColor(getColor(color: "gray"))
-                    .font( color == "white" ? .title : .title3 )
-            }) */
             Button(action: {
                 color = "black"
             }, label: {

@@ -20,6 +20,7 @@ struct ItemEditView: View {
             List {
                 Section(header: Text("Title")) {
                     TextField("Title", text: $name)
+                        .fixedSize(horizontal: false, vertical: true)
                 }
                 Section(header: Text("Rating")) {
                     NumberChoice(rating: $rating)
@@ -27,10 +28,10 @@ struct ItemEditView: View {
                 }
                 Section(header: Text("Notes")){
                     TextEditor(text: $notes)
+
                 }
                 Section(header: Text("Link")){
                     TextEditor(text: $link)
-                        .fixedSize(horizontal: false, vertical: true)
                 }
                 Section(header: Text("Date")) {
                     DatePicker(
@@ -39,7 +40,6 @@ struct ItemEditView: View {
                         displayedComponents: [.date]
                     )
                     .labelsHidden()
-
                 }
             }
             .buttonStyle(BorderlessButtonStyle())
