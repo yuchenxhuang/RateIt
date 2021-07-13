@@ -111,6 +111,7 @@ struct CategoryDetailView: View {
                         }
                     })
                     .padding(.trailing, 20)
+                    //.padding(.bottom, 20)
                 }
             }
         }

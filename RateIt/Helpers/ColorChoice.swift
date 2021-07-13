@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ColorChoice: View {
     @Binding var color: String
-    let colors = ["black", "red", "orange", "yellow", "green", "blue", "purple"]
+    let colors = ["black", "red", "orange", "yellow", "green", "blue", "purple", "gray"]
     
     var body: some View {
         HStack{

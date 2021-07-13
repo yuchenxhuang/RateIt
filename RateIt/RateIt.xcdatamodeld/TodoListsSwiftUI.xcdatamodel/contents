@@ -9,6 +9,7 @@
         <relationship name="items" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Item" inverseName="category" inverseEntity="Item"/>
     </entity>
     <entity name="Item" representedClassName="Item" syncable="YES" codeGenerationType="class">
+        <attribute name="color" optional="YES" attributeType="String"/>
         <attribute name="dateAdded" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="dateModified" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="favorite" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
@@ -20,6 +21,6 @@
     </entity>
     <elements>
         <element name="Category" positionX="-63" positionY="-18" width="128" height="119"/>
-        <element name="Item" positionX="-54" positionY="-9" width="128" height="149"/>
+        <element name="Item" positionX="-54" positionY="-9" width="128" height="164"/>
     </elements>
 </model>

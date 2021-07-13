@@ -49,10 +49,14 @@ extension PersistenceProvider {
     }
     
     func delete(_ items: [Item]) {
-        for item in items {
-            context.delete(item)
+        
+        // bug
+        context.perform {
+            for item in items {
+                self.context.delete(item)
+            }
+            try? self.context.save()
         }
-        try? context.save()
     }
-    
+
 }

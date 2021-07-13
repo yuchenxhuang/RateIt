@@ -19,8 +19,7 @@ struct ItemEditView: View {
         VStack {
             List {
                 Section(header: Text("Title")) {
-                    TextField("Title", text: $name)
-                        .fixedSize(horizontal: false, vertical: true)
+                    TextEditor(text: $name)
                 }
                 Section(header: Text("Rating")) {
                     NumberChoice(rating: $rating)
@@ -42,6 +41,7 @@ struct ItemEditView: View {
                     .labelsHidden()
                 }
             }
+            .navigationTitle(name == "" ? Text("New Item") : Text("\(name)"))
             .buttonStyle(BorderlessButtonStyle())
             .listStyle(InsetGroupedListStyle())
         }

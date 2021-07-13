@@ -25,6 +25,7 @@ struct CategoryEditView: View {
                 IconChoice(icon: $icon, color: color)
             }
         }
+        .navigationTitle(Text("\(title)"))
         .buttonStyle(BorderlessButtonStyle())
         .listStyle(InsetGroupedListStyle())
     }
@@ -47,6 +48,7 @@ struct CategoryAddView: View {
                 IconChoice(icon: $icon, color: color)
             }
         }
+        .navigationTitle(title == "" ? Text("New Category") : Text("\(title)"))
         .buttonStyle(BorderlessButtonStyle())
         .listStyle(InsetGroupedListStyle())
     }

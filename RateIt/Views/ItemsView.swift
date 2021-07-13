@@ -15,7 +15,6 @@ struct ItemsView: View {
     
     //@Binding var listViewId: UUID
     @State private var listViewId = UUID()
-    @State var showAlertDelete = false
     
     private func refresh() {
         listViewId = UUID()
@@ -44,7 +43,7 @@ struct ItemCardView: View {
 
     var body: some View {
         HStack{
-            IconView(icon: "\(item.rating).circle.fill", color: item.category!.color!)
+            IconView(icon: "\(item.rating).circle.fill", color: item.category != nil ? item.category!.color! : "black")
                 .font(.title)
             Text(item.title ?? "")
                 .padding(.top).padding(.bottom)
