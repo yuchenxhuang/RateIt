@@ -9,9 +9,43 @@ import Foundation
 import CoreData
 
 extension PersistenceProvider {
-    var allCategoriesRequest: NSFetchRequest<Category> {
+    
+    // DATE ADDED
+    var newestCategoriesRequest: NSFetchRequest<Category> {
         let request: NSFetchRequest<Category> = Category.fetchRequest()
         request.sortDescriptors = [NSSortDescriptor(keyPath: \Category.dateAdded, ascending: false)]
+        return request
+    }
+    
+    var oldestCategoriesRequest: NSFetchRequest<Category> {
+        let request: NSFetchRequest<Category> = Category.fetchRequest()
+        request.sortDescriptors = [NSSortDescriptor(keyPath: \Category.dateAdded, ascending: true)]
+        return request
+    }
+    
+    // DATE EDITED
+    var touchedCategoriesRequest: NSFetchRequest<Category> {
+        let request: NSFetchRequest<Category> = Category.fetchRequest()
+        request.sortDescriptors = [NSSortDescriptor(keyPath: \Category.dateModified, ascending: false)]
+        return request
+    }
+    
+    var untouchedCategoriesRequest: NSFetchRequest<Category> {
+        let request: NSFetchRequest<Category> = Category.fetchRequest()
+        request.sortDescriptors = [NSSortDescriptor(keyPath: \Category.dateModified, ascending: true)]
+        return request
+    }
+    
+    // ALPHABETICAL
+    var atozCategoriesRequest: NSFetchRequest<Category> {
+        let request: NSFetchRequest<Category> = Category.fetchRequest()
+        request.sortDescriptors = [NSSortDescriptor(keyPath: \Category.title, ascending: true)]
+        return request
+    }
+    
+    var ztoaCategoriesRequest: NSFetchRequest<Category> {
+        let request: NSFetchRequest<Category> = Category.fetchRequest()
+        request.sortDescriptors = [NSSortDescriptor(keyPath: \Category.title, ascending: false)]
         return request
     }
     

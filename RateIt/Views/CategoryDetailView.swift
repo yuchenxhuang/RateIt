@@ -9,7 +9,15 @@ import SwiftUI
 
 struct CategoryDetailView: View {
     @ObservedObject var category: Category
-    var items: FetchRequest<Item>
+    var favoriteItems: FetchRequest<Item>
+    var bestItems: FetchRequest<Item>
+    var worstItems: FetchRequest<Item>
+    var newestItems: FetchRequest<Item>
+    var oldestItems: FetchRequest<Item>
+    var atozItems: FetchRequest<Item>
+    var ztoaItems: FetchRequest<Item>
+    var touchedItems: FetchRequest<Item>
+    @State private var sortedBy = "oldest"
     
     @State private var isPresented = false
     @State private var isAdding = false
@@ -25,7 +33,14 @@ struct CategoryDetailView: View {
 
     init(category: Category) {
         self.category = category
-        self.items = FetchRequest<Item>(fetchRequest: PersistenceProvider.default.itemsRequest(for: category))
+        self.favoriteItems = FetchRequest<Item>(fetchRequest: PersistenceProvider.default.favoriteItemsRequest(for: category))
+        self.newestItems = FetchRequest<Item>(fetchRequest: PersistenceProvider.default.newestItemsRequest(for: category))
+        self.oldestItems = FetchRequest<Item>(fetchRequest: PersistenceProvider.default.oldestItemsRequest(for: category))
+        self.bestItems = FetchRequest<Item>(fetchRequest: PersistenceProvider.default.bestItemsRequest(for: category))
+        self.worstItems = FetchRequest<Item>(fetchRequest: PersistenceProvider.default.worstItemsRequest(for: category))
+        self.atozItems = FetchRequest<Item>(fetchRequest: PersistenceProvider.default.atozItemsRequest(for: category))
+        self.ztoaItems = FetchRequest<Item>(fetchRequest: PersistenceProvider.default.ztoaItemsRequest(for: category))
+        self.touchedItems = FetchRequest<Item>(fetchRequest: PersistenceProvider.default.touchedItemsRequest(for: category))
     }
     
     private func reset() {
@@ -36,6 +51,18 @@ struct CategoryDetailView: View {
         itemLink = ""
     }
     
+    private func sortedCats(sortedCats: String) -> FetchRequest<Item> {
+        if sortedBy == "favorite" { return favoriteItems }
+        else if sortedBy == "newest" { return newestItems }
+        else if sortedBy == "oldest" { return oldestItems }
+        else if sortedBy == "best" { return bestItems }
+        else if sortedBy == "worst" { return worstItems }
+        else if sortedBy == "atoz" { return atozItems }
+        else if sortedBy == "ztoa" { return ztoaItems }
+        else if sortedBy == "touched" { return touchedItems }
+        else { return newestItems }
+    }
+    
     var body: some View {
         ZStack {
             
@@ -44,7 +71,7 @@ struct CategoryDetailView: View {
             VStack {
                 ItemsView(
                     category: category,
-                    items: items.wrappedValue,
+                    items: sortedCats(sortedCats: sortedBy).wrappedValue,
                     //onSelect: { item in
                         //PersistenceProvider.default.update(item, with: "Edited")
                     //},
@@ -62,6 +89,16 @@ struct CategoryDetailView: View {
                     catName = category.title ?? ""
                     catColor = category.color ?? "black"
                     catIcon = category.icon ?? "circle.fill"
+                }
+                Menu("Sort") {
+                    Button("Favorite", action: {sortedBy = "favorite"})
+                    Button("Newest", action: {sortedBy = "newest"})
+                    Button("Oldest", action: {sortedBy = "oldest"})
+                    Button("10 → 1", action: {sortedBy = "best"})
+                    Button("1 → 10", action: {sortedBy = "worst"})
+                    Button("A → Z", action: {sortedBy = "atoz"})
+                    Button("Z → A", action: {sortedBy = "ztoa"})
+                    Button("Last Edited", action: {sortedBy = "touched"})
                 }
             })
             

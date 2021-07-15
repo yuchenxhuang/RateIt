@@ -8,11 +8,18 @@
 import SwiftUI
 
 struct HomeView: View {
-    @FetchRequest(fetchRequest: PersistenceProvider.default.allCategoriesRequest) var allLists: FetchedResults<Category>
+    @FetchRequest(fetchRequest: PersistenceProvider.default.newestCategoriesRequest) var newestCategories: FetchedResults<Category>
+    @FetchRequest(fetchRequest: PersistenceProvider.default.oldestCategoriesRequest) var oldestCategories: FetchedResults<Category>
+    @FetchRequest(fetchRequest: PersistenceProvider.default.atozCategoriesRequest) var atozCategories: FetchedResults<Category>
+    @FetchRequest(fetchRequest: PersistenceProvider.default.ztoaCategoriesRequest) var ztoaCategories: FetchedResults<Category>
+    @FetchRequest(fetchRequest: PersistenceProvider.default.touchedCategoriesRequest) var touchedCategories: FetchedResults<Category>
+    @FetchRequest(fetchRequest: PersistenceProvider.default.untouchedCategoriesRequest) var untouchedCategories: FetchedResults<Category>
+
     @State private var isPresented = false
     @State private var name = ""
     @State private var color = "black"
     @State private var icon = "circle.fill"
+    @State private var sortedBy = "newest"
 
     init() {
         UINavigationBar.appearance().largeTitleTextAttributes = [.font : UIFont(name: "JosefinSans-Bold", size: 34)!]
@@ -25,19 +32,29 @@ struct HomeView: View {
         icon = "circle.fill"
     }
     
+    private func sortedCats(sortedCats: String) -> FetchedResults<Category> {
+        if sortedBy == "newest" { return newestCategories }
+        else if sortedBy == "oldest" { return oldestCategories }
+        else if sortedBy == "atoz" { return atozCategories }
+        else if sortedBy == "ztoa" { return ztoaCategories }
+        else if sortedBy == "touched" { return touchedCategories }
+        else if sortedBy == "untouched" { return untouchedCategories }
+        else { return newestCategories }
+    }
+    
     var body: some View {
         ZStack {
             
             // CATEGORIES LIST
             VStack {
                 List {
-                    ForEach(allLists) { category in
+                    ForEach( sortedCats(sortedCats: sortedBy)) { category in
                         NavigationLink(destination: CategoryDetailView(category: category)) {
                             CategoryCardView(category: category)
                         }
                     }
                     .onDelete(perform: { indexSet in
-                        PersistenceProvider.default.delete(allLists.get(indexSet))
+                        PersistenceProvider.default.delete(newestCategories.get(indexSet))
                     })
                 }
                 .listStyle(InsetGroupedListStyle())
@@ -57,6 +74,16 @@ struct HomeView: View {
                 }
             }
             .navigationTitle("Categories")
+            .navigationBarItems(trailing: HStack {
+                Menu("Sort") {
+                    Button("Newest", action: {sortedBy = "newest"})
+                    Button("Oldest", action: {sortedBy = "oldest"})
+                    Button("A → Z", action: {sortedBy = "atoz"})
+                    Button("Z → A", action: {sortedBy = "ztoa"})
+                    Button("Last Edited", action: {sortedBy = "touched"})
+                    //Button("Untouched", action: {criterion = "untouched"})
+                }
+            })
             
             // FLOATING BUTTON
             VStack {

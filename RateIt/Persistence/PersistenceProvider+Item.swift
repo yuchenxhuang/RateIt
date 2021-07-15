@@ -8,12 +8,76 @@
 import CoreData
 
 extension PersistenceProvider {
-    func itemsRequest(for category: Category) -> NSFetchRequest<Item> {
+    
+    func favoriteItemsRequest(for category: Category) -> NSFetchRequest<Item> {
         let request: NSFetchRequest<Item> = Item.fetchRequest()
         request.predicate = NSPredicate(format: "%K == %@", #keyPath(Item.category), category)
         request.sortDescriptors = [
             NSSortDescriptor(keyPath: \Item.favorite, ascending: false),
+            NSSortDescriptor(keyPath: \Item.rating, ascending: false)
+        ]
+        return request
+    }
+    
+    func newestItemsRequest(for category: Category) -> NSFetchRequest<Item> {
+        let request: NSFetchRequest<Item> = Item.fetchRequest()
+        request.predicate = NSPredicate(format: "%K == %@", #keyPath(Item.category), category)
+        request.sortDescriptors = [
             NSSortDescriptor(keyPath: \Item.dateAdded, ascending: false)
+        ]
+        return request
+    }
+    
+    func oldestItemsRequest(for category: Category) -> NSFetchRequest<Item> {
+        let request: NSFetchRequest<Item> = Item.fetchRequest()
+        request.predicate = NSPredicate(format: "%K == %@", #keyPath(Item.category), category)
+        request.sortDescriptors = [
+            NSSortDescriptor(keyPath: \Item.dateAdded, ascending: true)
+        ]
+        return request
+    }
+    
+    func bestItemsRequest(for category: Category) -> NSFetchRequest<Item> {
+        let request: NSFetchRequest<Item> = Item.fetchRequest()
+        request.predicate = NSPredicate(format: "%K == %@", #keyPath(Item.category), category)
+        request.sortDescriptors = [
+            NSSortDescriptor(keyPath: \Item.rating, ascending: false)
+        ]
+        return request
+    }
+    
+    func worstItemsRequest(for category: Category) -> NSFetchRequest<Item> {
+        let request: NSFetchRequest<Item> = Item.fetchRequest()
+        request.predicate = NSPredicate(format: "%K == %@", #keyPath(Item.category), category)
+        request.sortDescriptors = [
+            NSSortDescriptor(keyPath: \Item.rating, ascending: true)
+        ]
+        return request
+    }
+    
+    func atozItemsRequest(for category: Category) -> NSFetchRequest<Item> {
+        let request: NSFetchRequest<Item> = Item.fetchRequest()
+        request.predicate = NSPredicate(format: "%K == %@", #keyPath(Item.category), category)
+        request.sortDescriptors = [
+            NSSortDescriptor(keyPath: \Item.title, ascending: true)
+        ]
+        return request
+    }
+    
+    func ztoaItemsRequest(for category: Category) -> NSFetchRequest<Item> {
+        let request: NSFetchRequest<Item> = Item.fetchRequest()
+        request.predicate = NSPredicate(format: "%K == %@", #keyPath(Item.category), category)
+        request.sortDescriptors = [
+            NSSortDescriptor(keyPath: \Item.title, ascending: false)
+        ]
+        return request
+    }
+    
+    func touchedItemsRequest(for category: Category) -> NSFetchRequest<Item> {
+        let request: NSFetchRequest<Item> = Item.fetchRequest()
+        request.predicate = NSPredicate(format: "%K == %@", #keyPath(Item.category), category)
+        request.sortDescriptors = [
+            NSSortDescriptor(keyPath: \Item.dateModified, ascending: false)
         ]
         return request
     }
