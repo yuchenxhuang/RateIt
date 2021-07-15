@@ -9,6 +9,8 @@ import SwiftUI
 
 struct CategoryDetailView: View {
     @ObservedObject var category: Category
+    //var favoriteItems, bestItems, worstItems, newestItems, oldestItems, atozItems, ztoaItems, touchedItems: FetchRequest<Item>
+    
     var favoriteItems: FetchRequest<Item>
     var bestItems: FetchRequest<Item>
     var worstItems: FetchRequest<Item>
@@ -79,7 +81,6 @@ struct CategoryDetailView: View {
                         PersistenceProvider.default.delete(items)
                     }
                 )
-
             }
             .buttonStyle(PlainButtonStyle())
             .navigationTitle(category.title ?? "")

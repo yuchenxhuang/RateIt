@@ -9,16 +9,20 @@ import SwiftUI
 
 struct ItemDetailView: View {
     @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @ObservedObject var item: Item
+
     @State var date: Date
     @State var name: String
     @State var rating: Double
     @State var notes: String
     @State var link: String
     @State var isRating = false
+    @State var isEditing = false
 
     var body: some View {
         ScrollView() {
+            
             VStack (alignment: .leading){
                 
                 // TITLE
@@ -39,61 +43,11 @@ struct ItemDetailView: View {
                             }
                         }
                     }
-                    /*
-                    .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)) { _ in
-                        if name != "" {
-                            PersistenceProvider.default.updateTitle(item, with: name)
-                        }
-                     }
-                    */
                 
-                // TOOLBAR
+                // RATING TOOLBAR
                 
-                HStack() {
-                    VStack{
-                        Button(action: {
-                            isRating = !isRating
-                        }, label: {
-                            Image(systemName: "\(item.rating).circle.fill")
-                                .font(.largeTitle)
-                                .foregroundColor(getColor(color: item.category!.color!))
-                        })
-                        .onChange(of: rating, perform: { _ in
-                            PersistenceProvider.default.updateRating(item, with: rating)
-                        })
-                    }
-                    .frame(maxWidth: .infinity)
-                    
-                    VStack (alignment: .center){
-                        //Text(item.dateAdded!, style: .date)
-                        DatePicker(
-                            "Date",
-                            selection: $date,
-                            displayedComponents: [.date]
-                        )
-                        .labelsHidden()
-                        .accentColor(.black)
-                        .id(date) // fixes short/medium format switching
-                        .onChange(of: date, perform: { _ in
-                            PersistenceProvider.default.updateDate(item, with: date)
-                            //PersistenceProvider.default.toggle(item)
-                        })
-                    }
-                    .frame(maxWidth: .infinity)
-                    
-                    VStack{
-                        Image(systemName: item.favorite ? "star.fill" : "star")
-                            .foregroundColor(item.favorite ? Color.yellow : Color.gray)
-                            .onTapGesture { PersistenceProvider.default.toggle(item)}
-                            .font(.title)
-                    }
-                    .frame(maxWidth: .infinity)
-                }
-                .padding(.leading).padding(.trailing)
-                .padding(.bottom, 10)
-                
-                // RATING DROPDOWN
-                
+                RatingToolbar(item: item, date: $date, rating: $rating, isRating: $isRating)
+                                
                 if isRating {
                     VStack(spacing: 10){
                         Divider()
@@ -162,6 +116,20 @@ struct ItemDetailView: View {
             .padding()
             .navigationBarTitleDisplayMode(.inline)
         }
+        
+        // END SCROLL VIEW
+        
+        .navigationBarItems(trailing: HStack {
+            Menu("Edit") {
+                Button(action: {
+                    self.presentationMode.wrappedValue.dismiss()
+                    PersistenceProvider.default.delete([item])
+                }, label: {
+                    Text("Delete")
+                        .foregroundColor(Color.red)
+                })
+            }
+        })
         .onDisappear(perform: {
             if name.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
                 PersistenceProvider.default.updateTitle(item, with: name)

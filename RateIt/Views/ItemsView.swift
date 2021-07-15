@@ -10,23 +10,14 @@ import SwiftUI
 struct ItemsView: View {
     let category: Category
     let items: FetchedResults<Item>
-    //let onSelect: (Item) -> Void
     let onDelete: ([Item]) -> Void
-    
-    //@Binding var listViewId: UUID
     @State private var listViewId = UUID()
-    
-    private func refresh() {
-        listViewId = UUID()
-    }
 
     var body: some View {
         VStack {
             List {
                 ForEach(items) { item in
                     NavigationLink(destination: ItemDetailView(item: item, date: item.dateAdded!, name: item.title!, rating: Double(item.rating), notes: item.notes!, link: item.link!)  ) {
-
-                    //NavigationLink(destination: ItemDetailView(item: item, date: item.dateAdded!) /*.onAppear {refresh()}*/ ) {
                         ItemCardView(item: item, category: category)
                     }
                 }
@@ -34,7 +25,6 @@ struct ItemsView: View {
             }
             .buttonStyle(BorderlessButtonStyle())
             .listStyle(InsetGroupedListStyle())
-            //.id(listViewId)
         }
     }
 }
