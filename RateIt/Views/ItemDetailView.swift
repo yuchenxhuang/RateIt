@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct ItemDetailView: View {
     @Environment(\.scenePhase) private var scenePhase
@@ -17,9 +18,32 @@ struct ItemDetailView: View {
     @State var rating: Double
     @State var notes: String
     @State var link: String
+    
     @State var isRating = false
     @State var isEditing = false
-
+    @State var showCamera: Bool = false
+    @State var showLibrary: Bool = false
+    @State var image: UIImage?
+    @State var fullSize = false
+    @State var fullPicture: UIImage?
+    @State var pictureReference: Picture?
+    
+    var pictures: FetchRequest<Picture>
+    
+    func onDelete(pictureSet : [Picture]) {
+        PersistenceProvider.default.delete(pictureSet)
+    }
+    
+    init(item: Item) {
+        self.item = item
+        _date = State(initialValue: item.dateAdded!)
+        _name = State(initialValue: item.title!)
+        _rating = State(initialValue: Double(item.rating))
+        _notes = State(initialValue: item.notes!)
+        _link = State(initialValue: item.link!)
+        self.pictures = FetchRequest<Picture>(fetchRequest: PersistenceProvider.default.picturesRequest(for: item))
+    }
+    
     var body: some View {
         ScrollView() {
             
@@ -61,6 +85,37 @@ struct ItemDetailView: View {
                 }
                 Divider()
                     .padding(.bottom, 10)
+                
+                // PHOTOS
+                
+                VStack(alignment: .leading) {
+                    Text("Photos")
+                        .font(.custom("JosefinSans-Bold", size: 22, relativeTo: .title2))
+                    //Text("\(pictures.wrappedValue.count)")
+                    ScrollView(.horizontal, showsIndicators: false){
+                        HStack {
+                               ForEach(pictures.wrappedValue, id: \.self) { picture in
+                                    Image(uiImage: UIImage(data: picture.data! as Data) ?? UIImage())
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(height: 100)
+                                        .onTapGesture(perform: {
+                                            pictureReference = picture
+                                            fullPicture = UIImage(data: picture.data! as Data)
+                                            fullSize = true
+                                        })
+                               }
+                               .onDelete { indexSet in onDelete(pictureSet: pictures.wrappedValue.get(indexSet)) }
+                           }
+                    }
+                    Button("Take a photo") {
+                        self.showCamera.toggle()
+                    }
+                    Button("Upload from Library") {
+                        self.showLibrary.toggle()
+                    }
+                    Divider()
+                }
 
                 // NOTES
                 
@@ -141,5 +196,40 @@ struct ItemDetailView: View {
                 PersistenceProvider.default.update(item, with: name, with: Int16(rating), with: notes, with: link, with: date)
             }
         }
+        .fullScreenCover(isPresented: $showCamera) {
+            ImagePickerView(sourceType: .camera) { image in
+                self.image = image
+                let imageData = image.jpegData(compressionQuality: 1.0)
+                PersistenceProvider.default.createPicture(with: imageData!, in: item)
+            }
+        }
+        .fullScreenCover(isPresented: $showLibrary) {
+            ImagePickerView(sourceType: .photoLibrary) { image in
+                self.image = image
+                let imageData = image.jpegData(compressionQuality: 1.0)
+                PersistenceProvider.default.createPicture(with: imageData!, in: item)
+            }
+        }
+        .fullScreenCover(isPresented: $fullSize, content: {
+            VStack{
+                Button("Exit View", action: {fullSize = false})
+                if fullPicture != nil {
+                    Image(uiImage: fullPicture!)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .onTapGesture(perform: {
+                            fullSize = false
+                        })
+                } else {
+                    Text("No Image")
+                }
+                Button("Delete Image", action: {
+                    fullSize = false
+                    if pictureReference != nil {
+                        PersistenceProvider.default.delete([pictureReference!])
+                    }
+                })
+            }
+        })
     }
 }

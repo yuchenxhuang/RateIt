@@ -74,9 +74,6 @@ struct CategoryDetailView: View {
                 ItemsView(
                     category: category,
                     items: sortedCats(sortedCats: sortedBy).wrappedValue,
-                    //onSelect: { item in
-                        //PersistenceProvider.default.update(item, with: "Edited")
-                    //},
                     onDelete: { items in
                         PersistenceProvider.default.delete(items)
                     }
@@ -125,7 +122,9 @@ struct CategoryDetailView: View {
                         .navigationBarItems(leading: Button("Cancel") {
                             reset()
                         }, trailing: Button("Done") {
-                            if (itemName != "") {PersistenceProvider.default.createItem(with: itemName, with: Int16(itemRating), with: itemNotes, with: itemLink,  in: category)}
+                            if (itemName != "") {
+                                PersistenceProvider.default.createItem(with: itemName, with: Int16(itemRating), with: itemNotes, with: itemLink,  in: category)
+                            }
                             reset()
                         })
                 }

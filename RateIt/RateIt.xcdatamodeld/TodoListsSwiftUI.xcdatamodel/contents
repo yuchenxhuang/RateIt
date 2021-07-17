@@ -17,9 +17,16 @@
         <attribute name="rating" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="title" attributeType="String"/>
         <relationship name="category" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Category" inverseName="items" inverseEntity="Category"/>
+        <relationship name="pictures" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Picture" inverseName="item" inverseEntity="Picture"/>
+    </entity>
+    <entity name="Picture" representedClassName="Picture" syncable="YES" codeGenerationType="class">
+        <attribute name="data" optional="YES" attributeType="Binary"/>
+        <attribute name="dateAdded" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="item" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Item" inverseName="pictures" inverseEntity="Item"/>
     </entity>
     <elements>
         <element name="Category" positionX="-63" positionY="-18" width="128" height="119"/>
-        <element name="Item" positionX="-54" positionY="-9" width="128" height="149"/>
+        <element name="Item" positionX="-54" positionY="-9" width="128" height="164"/>
+        <element name="Picture" positionX="-54" positionY="63" width="128" height="74"/>
     </elements>
 </model>

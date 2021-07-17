@@ -17,7 +17,7 @@ struct ItemsView: View {
         VStack {
             List {
                 ForEach(items) { item in
-                    NavigationLink(destination: ItemDetailView(item: item, date: item.dateAdded!, name: item.title!, rating: Double(item.rating), notes: item.notes!, link: item.link!)  ) {
+                    NavigationLink(destination: ItemDetailView(item: item)  ) {
                         ItemCardView(item: item, category: category)
                     }
                 }

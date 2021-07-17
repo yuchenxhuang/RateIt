@@ -39,6 +39,7 @@ struct ImagePickerExampleView: View {
         .fullScreenCover(isPresented: $showImagePicker) {
             ImagePickerView(sourceType: camera ? .camera : .photoLibrary) { image in
                 self.image = image
+
             }
         }
     }
