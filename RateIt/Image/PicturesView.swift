@@ -7,38 +7,34 @@
 
 import SwiftUI
 
-struct PicturesView: View {
-    @ObservedObject var item: Item
-    let pictures: FetchedResults<Picture>
-    let onDelete: ([Picture]) -> Void
+struct FullScreenPictureView: View {
+    @Environment(\.presentationMode) var presentationMode
+    let picture: Picture
     
-    @State var fullSize = false
-    @State var fullPicture : Picture?
-
     var body: some View {
-        ForEach(pictures) { picture in
-            Button( action: {
-                fullSize = true
-                fullPicture = picture
-            }) {
+        VStack{
+            Button("Exit View", action: {
+                presentationMode.wrappedValue.dismiss()
+            })
+            ZoomableScrollView {
                 Image(uiImage: UIImage(data: picture.data! as Data) ?? UIImage())
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-            }
-
-        }
-        .onDelete { indexSet in onDelete(pictures.get(indexSet)) }
-        .fullScreenCover(isPresented: $fullSize, content: {
-            if fullPicture != nil {
-                Image(uiImage: UIImage(data: fullPicture!.data! as Data) ?? UIImage())
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
                     .onTapGesture(perform: {
-                        fullSize = false
+                        presentationMode.wrappedValue.dismiss()
                     })
+                    .gesture(DragGesture(minimumDistance: 10, coordinateSpace: .local)
+                        .onEnded({ value in
+                            if value.translation.height > 10 {
+                                presentationMode.wrappedValue.dismiss()
+                            }
+                        })
+                    )
+                }
             }
-        })
+            Button("Delete Image", action: {
+                presentationMode.wrappedValue.dismiss()
+                PersistenceProvider.default.delete([picture])
+            })
     }
 }
-
-

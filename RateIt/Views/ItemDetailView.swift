@@ -97,17 +97,18 @@ struct ItemDetailView: View {
                                ForEach(pictures.wrappedValue, id: \.self) { picture in
                                     Image(uiImage: UIImage(data: picture.data! as Data) ?? UIImage())
                                         .resizable()
-                                        .aspectRatio(contentMode: .fill)
+                                        .aspectRatio(contentMode: .fit)
                                         .frame(height: 100)
-                                        .onTapGesture(perform: {
-                                            pictureReference = picture
-                                            fullPicture = UIImage(data: picture.data! as Data)
-                                            fullSize = true
-                                        })
+                                        .onTapGesture{
+                                            self.pictureReference = picture
+                                        }
                                }
                                .onDelete { indexSet in onDelete(pictureSet: pictures.wrappedValue.get(indexSet)) }
                            }
                     }
+                    .fullScreenCover(item: self.$pictureReference, content: { picture in
+                        FullScreenPictureView(picture: picture)
+                    })
                     Button("Take a photo") {
                         self.showCamera.toggle()
                     }
@@ -210,26 +211,5 @@ struct ItemDetailView: View {
                 PersistenceProvider.default.createPicture(with: imageData!, in: item)
             }
         }
-        .fullScreenCover(isPresented: $fullSize, content: {
-            VStack{
-                Button("Exit View", action: {fullSize = false})
-                if fullPicture != nil {
-                    Image(uiImage: fullPicture!)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .onTapGesture(perform: {
-                            fullSize = false
-                        })
-                } else {
-                    Text("No Image")
-                }
-                Button("Delete Image", action: {
-                    fullSize = false
-                    if pictureReference != nil {
-                        PersistenceProvider.default.delete([pictureReference!])
-                    }
-                })
-            }
-        })
     }
 }
