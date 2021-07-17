@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CategoryDetailView: View {
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @ObservedObject var category: Category
     //var favoriteItems, bestItems, worstItems, newestItems, oldestItems, atozItems, ztoaItems, touchedItems: FetchRequest<Item>
     
@@ -32,6 +33,9 @@ struct CategoryDetailView: View {
     @State private var itemNotes = ""
     @State private var itemLink = ""
     @State private var itemDate = Date()
+    
+    @State var isSearching: Bool = false
+    @State var searchText: String = ""
 
     init(category: Category) {
         self.category = category
@@ -92,15 +96,21 @@ struct CategoryDetailView: View {
                     Image(systemName: "ellipsis.circle")
                         .font(.title2)
                 })
+                Button( action: {
+                    isSearching = true
+                }, label: {
+                    Image(systemName: "magnifyingglass.circle")
+                        .font(.title2)
+                })
                 Menu(content: {
-                        Button("Favorite", action: {sortedBy = "favorite"})
-                        Button("Newest", action: {sortedBy = "newest"})
-                        Button("Oldest", action: {sortedBy = "oldest"})
-                        Button("10 → 1", action: {sortedBy = "best"})
-                        Button("1 → 10", action: {sortedBy = "worst"})
-                        Button("A → Z", action: {sortedBy = "atoz"})
-                        Button("Z → A", action: {sortedBy = "ztoa"})
-                        Button("Last Edited", action: {sortedBy = "touched"})
+                    SortingButton(name: "favorite", Name: "Favorite", sortedBy: $sortedBy)
+                    SortingButton(name: "newest", Name: "Newest", sortedBy: $sortedBy)
+                    SortingButton(name: "oldest", Name: "Oldest", sortedBy: $sortedBy)
+                    SortingButton(name: "best", Name: "10 → 1", sortedBy: $sortedBy)
+                    SortingButton(name: "worst", Name: "1 → 10", sortedBy: $sortedBy)
+                    SortingButton(name: "atoz", Name: "A → Z", sortedBy: $sortedBy)
+                    SortingButton(name: "ztoa", Name: "Z → A", sortedBy: $sortedBy)
+                    SortingButton(name: "touched", Name: "Last Edited", sortedBy: $sortedBy)
                 }, label: {
                     Image(systemName: "arrow.up.arrow.down.circle")
                         .font(.title2)
@@ -109,9 +119,10 @@ struct CategoryDetailView: View {
             })
             
             // EDIT VIEW
+            
             .sheet(isPresented: $isPresented) {
                 NavigationView {
-                    CategoryEditView(category: category, title: $catName, color: $catColor, icon: $catIcon, isPresented: $isPresented)
+                    CategoryEditView(category: category, presentationMode: presentationMode, title: $catName, color: $catColor, icon: $catIcon, isPresented: $isPresented)
                         .navigationTitle(category.title ?? "")
                         .navigationBarItems(leading: Button("Cancel") {
                             isPresented = false
@@ -125,6 +136,7 @@ struct CategoryDetailView: View {
             }
             
             // ADDING NEW ITEM
+            
             .sheet(isPresented: $isAdding) {
                 NavigationView {
                     ItemEditView(name: $itemName, rating: $itemRating, notes: $itemNotes, link: $itemLink, date: $itemDate, color: category.color!)
@@ -139,7 +151,55 @@ struct CategoryDetailView: View {
                         })
                 }
             }
+            
+            // SEARCH
+            
+            .fullScreenCover(isPresented: $isSearching) {
+                NavigationView{
+                    VStack {
+                        SearchBar(text: $searchText, isSearching: $isSearching)
+                        Spacer()
+                        AllItemsSearchView(items: newestItems.wrappedValue, searchText: $searchText )
+                    }
+                    .navigationTitle("Search")
+                }
+            }
             FloatingButton(isPresented: $isAdding)
+        }
+    }
+}
+
+struct AllItemsCategoryView: View {
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @FetchRequest(fetchRequest: PersistenceProvider.default.allItemsRequest()) var allItems: FetchedResults<Item>
+    @State var isSearching: Bool = false
+    @State var searchText: String = ""
+    
+    var body: some View {
+        VStack {
+            AllItemsView(
+                items: allItems
+            )
+        }
+        .buttonStyle(PlainButtonStyle())
+        .navigationTitle("All Ratings")
+        .navigationBarItems(trailing: HStack {
+            Button( action: {
+                isSearching = true
+            }, label: {
+                Image(systemName: "magnifyingglass.circle")
+                    .font(.title2)
+            })
+        })
+        .fullScreenCover(isPresented: $isSearching) {
+            NavigationView{
+                VStack {
+                    SearchBar(text: $searchText, isSearching: $isSearching)
+                    Spacer()
+                    AllItemsSearchView(items: allItems, searchText: $searchText )
+                }
+                .navigationTitle("Search")
+            }
         }
     }
 }

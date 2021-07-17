@@ -9,6 +9,14 @@ import CoreData
 
 extension PersistenceProvider {
     
+    func allItemsRequest() -> NSFetchRequest<Item> {
+        let request: NSFetchRequest<Item> = Item.fetchRequest()
+        request.sortDescriptors = [
+            NSSortDescriptor(keyPath: \Item.dateAdded, ascending: false),
+        ]
+        return request
+    }
+    
     func favoriteItemsRequest(for category: Category) -> NSFetchRequest<Item> {
         let request: NSFetchRequest<Item> = Item.fetchRequest()
         request.predicate = NSPredicate(format: "%K == %@", #keyPath(Item.category), category)

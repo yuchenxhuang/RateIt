@@ -15,12 +15,15 @@ struct HomeView: View {
     @FetchRequest(fetchRequest: PersistenceProvider.default.touchedCategoriesRequest) var touchedCategories: FetchedResults<Category>
     @FetchRequest(fetchRequest: PersistenceProvider.default.untouchedCategoriesRequest) var untouchedCategories: FetchedResults<Category>
     @FetchRequest(fetchRequest: PersistenceProvider.default.rainbowCategoriesRequest) var rainbowCategories: FetchedResults<Category>
+    @FetchRequest(fetchRequest: PersistenceProvider.default.allItemsRequest()) var allItems: FetchedResults<Item>
 
     @State private var isPresented = false
     @State private var name = ""
     @State private var color = "black"
     @State private var icon = "circle.fill"
     @State private var sortedBy = "newest"
+    @State private var isSearching = false
+    @State private var searchText = ""
 
     init() {
         UINavigationBar.appearance().largeTitleTextAttributes = [.font : UIFont(name: "JosefinSans-Bold", size: 34)!]
@@ -48,21 +51,31 @@ struct HomeView: View {
         ZStack {
             
             // CATEGORIES LIST
+            
             VStack {
                 List {
+                    //SearchBar(text: $searchText)
+                    NavigationLink(destination: AllItemsCategoryView()) {
+                        HStack{
+                            Text("All Ratings")
+                                .padding(.top).padding(.bottom)
+                                .font(.custom("JosefinSans-Regular", size: 20, relativeTo: .headline))
+                            Spacer()
+                            // @FetchRequest(fetchRequest: PersistenceProvider.default.allItemsRequest()) var allItems: FetchedResults<Item>
+                            // Add total count here
+                        }
+                        .foregroundColor(.black)
+                    }
                     ForEach( sortedCats(sortedCats: sortedBy)) { category in
                         NavigationLink(destination: CategoryDetailView(category: category)) {
                             CategoryCardView(category: category)
                         }
                     }
-                    /*
-                    .onDelete(perform: { indexSet in
-                        PersistenceProvider.default.delete(newestCategories.get(indexSet))
-                    })*/
                 }
                 .listStyle(InsetGroupedListStyle())
                 
                 // ADD CATEGORY VIEW
+                
                 .sheet(isPresented: $isPresented) {
                     NavigationView {
                         CategoryAddView(title: $name, color: $color, icon: $icon, isPresented: $isPresented)
@@ -77,17 +90,34 @@ struct HomeView: View {
                             })
                     }
                 }
+                
+                // SEARCH VIEW
+                .fullScreenCover(isPresented: $isSearching) {
+                    NavigationView{
+                        VStack {
+                            SearchBar(text: $searchText, isSearching: $isSearching)
+                            Spacer()
+                            AllItemsSearchView(items: allItems, searchText: $searchText )
+                        }
+                        .navigationTitle("Search")
+                    }
+                }
             }
             .navigationTitle("Categories")
             .navigationBarItems(trailing: HStack {
+                Button( action: {
+                    isSearching = true
+                }, label: {
+                    Image(systemName: "magnifyingglass.circle")
+                        .font(.title2)
+                })
                 Menu( content: {
-                    Button("Newest", action: {sortedBy = "newest"})
-                    Button("Oldest", action: {sortedBy = "oldest"})
-                    Button("A → Z", action: {sortedBy = "atoz"})
-                    Button("Z → A", action: {sortedBy = "ztoa"})
-                    Button("Last Edited", action: {sortedBy = "touched"})
-                    Button("Rainbow", action: {sortedBy = "rainbow"})
-                    //Button("Untouched", action: {criterion = "untouched"})
+                    SortingButton(name: "newest", Name: "Newest", sortedBy: $sortedBy)
+                    SortingButton(name: "oldest", Name: "Oldest", sortedBy: $sortedBy)
+                    SortingButton(name: "atoz", Name: "A → Z", sortedBy: $sortedBy)
+                    SortingButton(name: "ztoa", Name: "Z → A", sortedBy: $sortedBy)
+                    SortingButton(name: "rainbow", Name: "Rainbow", sortedBy: $sortedBy)
+                    SortingButton(name: "touched", Name: "Last Edited", sortedBy: $sortedBy)
                 }, label: {
                     Image(systemName: "arrow.up.arrow.down.circle")
                         .font(.title2)
@@ -106,9 +136,10 @@ struct CategoryCardView: View {
             IconView(icon: category.icon ?? "circle.fill", color: category.color ?? "black")
                 .font(.title)
             Text(category.title ?? "")
-                //.font(.headline)
                 .padding(.top).padding(.bottom)
                 .font(.custom("JosefinSans-Regular", size: 20, relativeTo: .headline))
+            Spacer()
+            Text( category.items != nil ? "\(category.items!.count)" : "0" )
         }
         .foregroundColor(.black)
     }

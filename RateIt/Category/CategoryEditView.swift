@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CategoryEditView: View {
     @ObservedObject var category: Category
+    @Binding var presentationMode: PresentationMode
     @Binding var title: String
     @Binding var color: String
     @Binding var icon: String
@@ -55,6 +56,7 @@ struct CategoryEditView: View {
                       message: Text("Deleting this category will also delete all items in it."),
                       primaryButton: .default (Text("OK")) {
                         isPresented = false
+                        self.presentationMode.dismiss()
                         PersistenceProvider.default.delete([category])
                       },
                       secondaryButton: .cancel()

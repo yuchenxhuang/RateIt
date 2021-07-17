@@ -20,6 +20,12 @@ struct ItemEditView: View {
             List {
                 Section(header: Text("Title")) {
                     TextEditor(text: $name)
+                        .onChange(of: name) { value in
+                            if value.contains("\n") {
+                                name = value.replacingOccurrences(of: "\n", with: "")
+                                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                            }
+                        }
                 }
                 Section(header: Text("Rating")) {
                     NumberChoice(rating: $rating)
@@ -31,6 +37,12 @@ struct ItemEditView: View {
                 }
                 Section(header: Text("Link")){
                     TextEditor(text: $link)
+                        .onChange(of: link) { value in
+                            if value.contains("\n") {
+                                link = value.replacingOccurrences(of: "\n", with: "")
+                                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                            }
+                        }
                 }
                 Section(header: Text("Date")) {
                     DatePicker(

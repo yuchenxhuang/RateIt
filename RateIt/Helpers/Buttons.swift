@@ -34,3 +34,22 @@ struct FloatingButton: View {
         
     }
 }
+
+struct SortingButton: View {
+    let name: String
+    let Name: String
+    @Binding var sortedBy: String
+    
+    var body: some View {
+        Button(action: {
+            sortedBy = name
+        }, label: {
+            HStack() {
+                Text(Name)
+                if sortedBy == name {
+                    Image(systemName: "checkmark")
+                }
+            }
+        })
+    }
+}

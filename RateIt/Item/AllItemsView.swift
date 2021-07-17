@@ -1,27 +1,23 @@
 //
-//  TodoListView.swift
+//  AllItemsView.swift
 //  RateIt
 //
-//  Created by Yu-Chen Huang on 7/8/21.
+//  Created by Yu-Chen Huang on 7/17/21.
 //
 
 import SwiftUI
 
-struct ItemsView: View {
-    let category: Category
+struct AllItemsView: View {
     let items: FetchedResults<Item>
-    //let onDelete: ([Item]) -> Void
-    @State private var listViewId = UUID()
 
     var body: some View {
         VStack {
             List {
                 ForEach(items) { item in
                     NavigationLink(destination: ItemDetailView(item: item)  ) {
-                        ItemCardView(item: item, category: category)
+                        AllItemCardView(item: item)
                     }
                 }
-                //.onDelete { indexSet in onDelete(items.get(indexSet)) }
             }
             .buttonStyle(BorderlessButtonStyle())
             .listStyle(InsetGroupedListStyle())
@@ -29,9 +25,28 @@ struct ItemsView: View {
     }
 }
 
-struct ItemCardView: View {
+struct AllItemsSearchView: View {
+    let items: FetchedResults<Item>
+    @Binding var searchText: String
+
+    var body: some View {
+        VStack {
+            List {
+                ForEach(items) { item in
+                    if searchText == "" || item.title!.lowercased().contains(searchText.lowercased()) {
+                        NavigationLink(destination: ItemDetailView(item: item)  ) {
+                            AllItemCardView(item: item)
+                        }
+                    }
+                }
+            }
+            .buttonStyle(BorderlessButtonStyle())
+        }
+    }
+}
+
+struct AllItemCardView: View {
     @ObservedObject var item: Item
-    @ObservedObject var category: Category
 
     var body: some View {
         HStack{
@@ -51,4 +66,3 @@ struct ItemCardView: View {
         .foregroundColor(.black)
     }
 }
-

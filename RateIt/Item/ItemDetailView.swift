@@ -27,6 +27,7 @@ struct ItemDetailView: View {
     @State var fullSize = false
     @State var fullPicture: UIImage?
     @State var pictureReference: Picture?
+    @State var showAlert: Bool = false
     
     var pictures: FetchRequest<Picture>
     
@@ -237,22 +238,50 @@ struct ItemDetailView: View {
         }
         .sheet(isPresented: $isEditing) {
             NavigationView{
-                VStack{
+                HStack {
+                    Spacer()
                     Button(action: {
-                        self.presentationMode.wrappedValue.dismiss()
-                        PersistenceProvider.default.delete([item])
+                        showAlert = true
                     }, label: {
-                        Image(systemName: "trash.circle.fill")
-                            .foregroundColor(.red)
-                            .font(.largeTitle)
+                        ZStack{
+                            Image(systemName: "circle.fill")
+                                .font(.largeTitle)
+                                .foregroundColor(.white)
+                            Image(systemName: "trash.circle.fill")
+                                .font(.largeTitle)
+                                .foregroundColor(.red)
+                        }
                     })
                     Spacer()
                 }
+                .listRowBackground(Color(UIColor.systemGray6))
+//                VStack{
+//                    Button(action: {
+//                        self.presentationMode.wrappedValue.dismiss()
+//                        PersistenceProvider.default.delete([item])
+//                    }, label: {
+//                        Image(systemName: "trash.circle.fill")
+//                            .foregroundColor(.red)
+//                            .font(.largeTitle)
+//                    })
+//                    Spacer()
+//                }
                 .navigationBarItems(leading: Button("Cancel") {
                     isEditing = false
                 }, trailing: Button("Done") {
                     isEditing = false
                 })
+                .alert(isPresented: $showAlert) {
+                    Alert(title: Text("Are you sure?"),
+                          message: Text("You cannot undo this action."),
+                          primaryButton: .default (Text("OK")) {
+                            isEditing = false
+                            self.presentationMode.wrappedValue.dismiss()
+                            PersistenceProvider.default.delete([item])
+                          },
+                          secondaryButton: .cancel()
+                    )
+                }
             }
         }
     }

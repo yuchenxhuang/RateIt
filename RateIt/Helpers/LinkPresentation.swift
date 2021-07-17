@@ -12,7 +12,9 @@ struct LinkPresentationView: View {
     //var links: [String]
     var link: String
     var body: some View {
-        LinkView(url: URL(string: link)!)
+        if URL(string: link) != nil {
+            LinkView(url: URL(string: link)!)
+        }
     }
 }
 
