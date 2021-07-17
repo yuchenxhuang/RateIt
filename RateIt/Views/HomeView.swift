@@ -14,6 +14,7 @@ struct HomeView: View {
     @FetchRequest(fetchRequest: PersistenceProvider.default.ztoaCategoriesRequest) var ztoaCategories: FetchedResults<Category>
     @FetchRequest(fetchRequest: PersistenceProvider.default.touchedCategoriesRequest) var touchedCategories: FetchedResults<Category>
     @FetchRequest(fetchRequest: PersistenceProvider.default.untouchedCategoriesRequest) var untouchedCategories: FetchedResults<Category>
+    @FetchRequest(fetchRequest: PersistenceProvider.default.rainbowCategoriesRequest) var rainbowCategories: FetchedResults<Category>
 
     @State private var isPresented = false
     @State private var name = ""
@@ -39,6 +40,7 @@ struct HomeView: View {
         else if sortedBy == "ztoa" { return ztoaCategories }
         else if sortedBy == "touched" { return touchedCategories }
         else if sortedBy == "untouched" { return untouchedCategories }
+        else if sortedBy == "rainbow" { return rainbowCategories }
         else { return newestCategories }
     }
     
@@ -53,21 +55,24 @@ struct HomeView: View {
                             CategoryCardView(category: category)
                         }
                     }
+                    /*
                     .onDelete(perform: { indexSet in
                         PersistenceProvider.default.delete(newestCategories.get(indexSet))
-                    })
+                    })*/
                 }
                 .listStyle(InsetGroupedListStyle())
                 
                 // ADD CATEGORY VIEW
                 .sheet(isPresented: $isPresented) {
                     NavigationView {
-                        CategoryAddView(title: $name, color: $color, icon: $icon)
+                        CategoryAddView(title: $name, color: $color, icon: $icon, isPresented: $isPresented)
                             .navigationTitle("New Category")
                             .navigationBarItems(leading: Button("Cancel") {
                                 reset()
                             }, trailing: Button("Done") {
-                                if (name != "") {PersistenceProvider.default.createCategory(with: name, with: color, with: icon)}
+                                if (name != "") {
+                                    PersistenceProvider.default.createCategory(with: name, with: color, with: icon)
+                                }
                                 reset()
                             })
                     }
@@ -75,37 +80,20 @@ struct HomeView: View {
             }
             .navigationTitle("Categories")
             .navigationBarItems(trailing: HStack {
-                Menu("Sort") {
+                Menu( content: {
                     Button("Newest", action: {sortedBy = "newest"})
                     Button("Oldest", action: {sortedBy = "oldest"})
                     Button("A → Z", action: {sortedBy = "atoz"})
                     Button("Z → A", action: {sortedBy = "ztoa"})
                     Button("Last Edited", action: {sortedBy = "touched"})
+                    Button("Rainbow", action: {sortedBy = "rainbow"})
                     //Button("Untouched", action: {criterion = "untouched"})
-                }
+                }, label: {
+                    Image(systemName: "arrow.up.arrow.down.circle")
+                        .font(.title2)
+                })
             })
-            
-            // FLOATING BUTTON
-            VStack {
-                Spacer()
-                HStack {
-                    Spacer()
-                    Button(action: {
-                        isPresented = true
-                    }, label: {
-                        ZStack {
-                            Image(systemName: "circle.fill")
-                                .font(.system(size: 50))
-                                .foregroundColor(Color.white)
-                            Image(systemName: "plus.circle.fill")
-                                .font(.system(size: 50))
-                                .foregroundColor(Color.blue)
-                        }
-                    })
-                    .padding(.trailing, 20)
-                    //.padding(.bottom, 20)
-                }
-            }
+            FloatingButton(isPresented: $isPresented)
         }
     }
 }

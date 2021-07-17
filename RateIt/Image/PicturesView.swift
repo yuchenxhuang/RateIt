@@ -13,9 +13,18 @@ struct FullScreenPictureView: View {
     
     var body: some View {
         VStack{
-            Button("Exit View", action: {
-                presentationMode.wrappedValue.dismiss()
-            })
+            HStack {
+                Spacer()
+                Button(action: {
+                    presentationMode.wrappedValue.dismiss()
+                }, label: {
+                    Image(systemName: "xmark.circle.fill")
+                        .font(.largeTitle)
+                        .foregroundColor(.gray)
+                })
+            }
+            .padding(.trailing).padding(.top)
+
             ZoomableScrollView {
                 Image(uiImage: UIImage(data: picture.data! as Data) ?? UIImage())
                     .resizable()
@@ -32,9 +41,13 @@ struct FullScreenPictureView: View {
                     )
                 }
             }
-            Button("Delete Image", action: {
+            Button(action: {
                 presentationMode.wrappedValue.dismiss()
                 PersistenceProvider.default.delete([picture])
+            }, label: {
+                Image(systemName: "trash.circle.fill")
+                    .font(.largeTitle)
+                    .foregroundColor(.red)
             })
     }
 }

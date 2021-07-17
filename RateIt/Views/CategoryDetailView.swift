@@ -19,8 +19,8 @@ struct CategoryDetailView: View {
     var atozItems: FetchRequest<Item>
     var ztoaItems: FetchRequest<Item>
     var touchedItems: FetchRequest<Item>
-    @State private var sortedBy = "oldest"
-    
+
+    @State private var sortedBy = "newest"
     @State private var isPresented = false
     @State private var isAdding = false
     @State private var catName = ""
@@ -73,43 +73,53 @@ struct CategoryDetailView: View {
             VStack {
                 ItemsView(
                     category: category,
-                    items: sortedCats(sortedCats: sortedBy).wrappedValue,
-                    onDelete: { items in
+                    items: sortedCats(sortedCats: sortedBy).wrappedValue
+                    /*
+                    ,onDelete: { items in
                         PersistenceProvider.default.delete(items)
-                    }
+                    }*/
                 )
             }
             .buttonStyle(PlainButtonStyle())
             .navigationTitle(category.title ?? "")
             .navigationBarItems(trailing: HStack {
-                Button("Edit") {
+                Button( action: {
                     isPresented = true
                     catName = category.title ?? ""
                     catColor = category.color ?? "black"
                     catIcon = category.icon ?? "circle.fill"
-                }
-                Menu("Sort") {
-                    Button("Favorite", action: {sortedBy = "favorite"})
-                    Button("Newest", action: {sortedBy = "newest"})
-                    Button("Oldest", action: {sortedBy = "oldest"})
-                    Button("10 → 1", action: {sortedBy = "best"})
-                    Button("1 → 10", action: {sortedBy = "worst"})
-                    Button("A → Z", action: {sortedBy = "atoz"})
-                    Button("Z → A", action: {sortedBy = "ztoa"})
-                    Button("Last Edited", action: {sortedBy = "touched"})
-                }
+                }, label:{
+                    Image(systemName: "ellipsis.circle")
+                        .font(.title2)
+                })
+                Menu(content: {
+                        Button("Favorite", action: {sortedBy = "favorite"})
+                        Button("Newest", action: {sortedBy = "newest"})
+                        Button("Oldest", action: {sortedBy = "oldest"})
+                        Button("10 → 1", action: {sortedBy = "best"})
+                        Button("1 → 10", action: {sortedBy = "worst"})
+                        Button("A → Z", action: {sortedBy = "atoz"})
+                        Button("Z → A", action: {sortedBy = "ztoa"})
+                        Button("Last Edited", action: {sortedBy = "touched"})
+                }, label: {
+                    Image(systemName: "arrow.up.arrow.down.circle")
+                        .font(.title2)
+                })
+                
             })
             
             // EDIT VIEW
-            .fullScreenCover(isPresented: $isPresented) {
+            .sheet(isPresented: $isPresented) {
                 NavigationView {
-                    CategoryEditView(category: category, title: $catName, color: $catColor, icon: $catIcon)
+                    CategoryEditView(category: category, title: $catName, color: $catColor, icon: $catIcon, isPresented: $isPresented)
                         .navigationTitle(category.title ?? "")
                         .navigationBarItems(leading: Button("Cancel") {
                             isPresented = false
                         }, trailing: Button("Done") {
                             isPresented = false
-                            if (catName != "") { PersistenceProvider.default.update(category, with: catName, with: catColor ?? "black", with: catIcon ?? "circle.fill") }
+                            if (catName != "") {
+                                PersistenceProvider.default.update(category, with: catName, with: catColor, with: catIcon)
+                            }
                         })
                 }
             }
@@ -129,28 +139,7 @@ struct CategoryDetailView: View {
                         })
                 }
             }
-            
-            // FLOATING BUTTON
-            VStack {
-                Spacer()
-                HStack {
-                    Spacer()
-                    Button(action: {
-                        isAdding = true
-                    }, label: {
-                        ZStack {
-                            Image(systemName: "circle.fill")
-                                .font(.system(size: 50))
-                                .foregroundColor(Color.white)
-                            Image(systemName: "plus.circle.fill")
-                                .font(.system(size: 50))
-                                .foregroundColor(Color.blue)
-                        }
-                    })
-                    .padding(.trailing, 20)
-                    //.padding(.bottom, 20)
-                }
-            }
+            FloatingButton(isPresented: $isAdding)
         }
     }
 }

@@ -49,11 +49,20 @@ extension PersistenceProvider {
         return request
     }
     
+    // RAINBOW
+    
+    var rainbowCategoriesRequest: NSFetchRequest<Category> {
+        let request: NSFetchRequest<Category> = Category.fetchRequest()
+        request.sortDescriptors = [NSSortDescriptor(keyPath: \Category.colorOrder, ascending: true)]
+        return request
+    }
+    
     @discardableResult
     func createCategory(with title: String, with color: String, with icon: String) -> Category {
         let category = Category(context: context)
         category.title = title
         category.color = color
+        category.colorOrder = getColorOrder(color: color)
         category.dateAdded = Date()
         category.dateModified = Date()
         category.icon = icon
@@ -64,6 +73,7 @@ extension PersistenceProvider {
     func update(_ category: Category, with title: String, with color: String, with icon: String) {
         category.title = title
         category.color = color
+        category.colorOrder = getColorOrder(color: color)
         category.icon = icon
         category.dateModified = Date()
         try? context.save()

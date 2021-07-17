@@ -84,36 +84,50 @@ struct ItemDetailView: View {
                     }
                 }
                 Divider()
-                    .padding(.bottom, 10)
                 
                 // PHOTOS
                 
                 VStack(alignment: .leading) {
-                    Text("Photos")
-                        .font(.custom("JosefinSans-Bold", size: 22, relativeTo: .title2))
+                    HStack(){
+                        Text("Photos")
+                            .font(.custom("JosefinSans-Bold", size: 22, relativeTo: .title2))
+                        Spacer()
+                        Menu( content: {
+                                Button("Camera") {
+                                    self.showCamera.toggle()
+                                }
+                                Button("Photo Library") {
+                                    self.showLibrary.toggle()
+                                }
+                            }, label: {
+                                Image(systemName: "plus.circle.fill")
+                                    .foregroundColor(getColor(color: item.category != nil ? item.category!.color! :  "black"))
+                                    .font(.title2)
+                            }
+                        )
+                    }
+
                     //Text("\(pictures.wrappedValue.count)")
-                    ScrollView(.horizontal, showsIndicators: false){
-                        HStack {
-                               ForEach(pictures.wrappedValue, id: \.self) { picture in
+                    if pictures.wrappedValue.count > 0 {
+                        ScrollView(.horizontal, showsIndicators: false){
+                            HStack {
+                                ForEach(pictures.wrappedValue, id: \.self) { picture in
                                     Image(uiImage: UIImage(data: picture.data! as Data) ?? UIImage())
                                         .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(height: 100)
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width:100, height: 100)
+                                        .cornerRadius(10)
                                         .onTapGesture{
                                             self.pictureReference = picture
                                         }
-                               }
-                               .onDelete { indexSet in onDelete(pictureSet: pictures.wrappedValue.get(indexSet)) }
-                           }
-                    }
-                    .fullScreenCover(item: self.$pictureReference, content: { picture in
-                        FullScreenPictureView(picture: picture)
-                    })
-                    Button("Take a photo") {
-                        self.showCamera.toggle()
-                    }
-                    Button("Upload from Library") {
-                        self.showLibrary.toggle()
+                                  }
+                                  .onDelete { indexSet in onDelete(pictureSet: pictures.wrappedValue.get(indexSet)) }
+                            }
+                        }
+                        .padding(.bottom, 10)
+                        .fullScreenCover(item: self.$pictureReference, content: { picture in
+                            FullScreenPictureView(picture: picture)
+                        })
                     }
                     Divider()
                 }
@@ -176,15 +190,25 @@ struct ItemDetailView: View {
         // END SCROLL VIEW
         
         .navigationBarItems(trailing: HStack {
-            Menu("Edit") {
-                Button(action: {
-                    self.presentationMode.wrappedValue.dismiss()
-                    PersistenceProvider.default.delete([item])
+            Button( action: {
+                    isEditing = true
                 }, label: {
-                    Text("Delete")
-                        .foregroundColor(Color.red)
-                })
-            }
+                    Image(systemName: "ellipsis.circle")
+                        .font(.title2)
+                }
+            )
+//            Menu( content: {
+//                Button(action: {
+//                    self.presentationMode.wrappedValue.dismiss()
+//                    PersistenceProvider.default.delete([item])
+//                }, label: {
+//                    Text("Delete")
+//                        .accentColor(Color.red)
+//                })
+//            }, label:{
+//                Image(systemName: "ellipsis.circle")
+//                    .font(.title2)
+//            })
         })
         .onDisappear(perform: {
             if name.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
@@ -209,6 +233,26 @@ struct ItemDetailView: View {
                 self.image = image
                 let imageData = image.jpegData(compressionQuality: 1.0)
                 PersistenceProvider.default.createPicture(with: imageData!, in: item)
+            }
+        }
+        .sheet(isPresented: $isEditing) {
+            NavigationView{
+                VStack{
+                    Button(action: {
+                        self.presentationMode.wrappedValue.dismiss()
+                        PersistenceProvider.default.delete([item])
+                    }, label: {
+                        Image(systemName: "trash.circle.fill")
+                            .foregroundColor(.red)
+                            .font(.largeTitle)
+                    })
+                    Spacer()
+                }
+                .navigationBarItems(leading: Button("Cancel") {
+                    isEditing = false
+                }, trailing: Button("Done") {
+                    isEditing = false
+                })
             }
         }
     }

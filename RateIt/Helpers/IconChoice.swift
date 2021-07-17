@@ -11,33 +11,42 @@ struct IconChoice: View {
     @Binding var icon: String
     var color: String
     
-    let icons1 = ["circle.fill", "star.circle.fill", "heart.circle.fill", "face.smiling.fill", "exclamationmark.circle.fill", "questionmark.circle.fill", "number.circle.fill","at.circle.fill", "dollarsign.circle.fill", "staroflife.circle.fill"]
-    let icons2 = ["folder.circle.fill", "book.circle.fill", "bookmark.circle.fill", "person.circle.fill", "pin.circle.fill", "cart.circle.fill", "airplane.circle.fill", "tv.circle.fill", "house.circle.fill", "bolt.circle.fill"]
+    let icons1 = ["circle.fill", "star.circle.fill", "heart.circle.fill", "face.smiling.fill", "exclamationmark.circle.fill", "questionmark.circle.fill", /*"number.circle.fill",*/"at.circle.fill", "dollarsign.circle.fill", "staroflife.circle.fill"]
+    let icons2 = ["folder.circle.fill", "book.circle.fill", /*"bookmark.circle.fill", */"person.circle.fill", "pin.circle.fill", "cart.circle.fill", "airplane.circle.fill", "tv.circle.fill", "house.circle.fill", "bolt.circle.fill"]
 
     var body: some View {
-        VStack {
-            HStack{
-                ForEach(icons1, id: \.self) { choice in
-                    Button(action: {
-                        icon = choice
-                    }, label: {
-                        Image(systemName: choice)
-                            .foregroundColor(getColor(color: color))
-                            .font( icon == choice ? .title : .title3 )
-                    })
+        VStack(alignment: .center) {
+            ZStack {
+                Image(systemName: "circle")
+                .foregroundColor(.white)
+                .font(.title)
+                HStack{
+                    ForEach(icons1, id: \.self) { choice in
+                        Button(action: {
+                            icon = choice
+                        }, label: {
+                            Image(systemName: choice)
+                                .foregroundColor(getColor(color: color))
+                                .font( icon == choice ? .title : .title2 )
+                        })
+                    }
                 }
             }
-            .padding(.bottom, 2)
-            HStack{
-                ForEach(icons2, id: \.self) { choice in
-                    Button(action: {
-                        icon = choice
-                    }, label: {
-                        Image(systemName: choice)
-                            .foregroundColor(getColor(color: color))
-                            .font( icon == choice ? .title : .title3 )
-                    })
-                }
+            ZStack {
+                Image(systemName: "circle")
+                .foregroundColor(.white)
+                .font(.title)
+                HStack{
+                     ForEach(icons2, id: \.self) { choice in
+                         Button(action: {
+                             icon = choice
+                         }, label: {
+                             Image(systemName: choice)
+                                 .foregroundColor(getColor(color: color))
+                                .font( icon == choice ? .title : .title2 )
+                         })
+                     }
+                 }
             }
         }
     }

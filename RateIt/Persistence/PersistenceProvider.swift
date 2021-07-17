@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreData
+import SwiftUI
 
 final class PersistenceProvider {
     enum StoreType {
@@ -40,5 +41,15 @@ final class PersistenceProvider {
                 fatalError("Failed loading persistent stores with error: \(error.localizedDescription)")
             }
         }
+    }
+}
+
+extension FetchedResults {
+    func get(_ indexSet: IndexSet) -> [Result] {
+        var result = [Result]()
+        for index in indexSet {
+            result.append(self[index])
+        }
+        return result
     }
 }

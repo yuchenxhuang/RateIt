@@ -10,7 +10,7 @@ import SwiftUI
 struct ItemsView: View {
     let category: Category
     let items: FetchedResults<Item>
-    let onDelete: ([Item]) -> Void
+    //let onDelete: ([Item]) -> Void
     @State private var listViewId = UUID()
 
     var body: some View {
@@ -21,7 +21,7 @@ struct ItemsView: View {
                         ItemCardView(item: item, category: category)
                     }
                 }
-                .onDelete { indexSet in onDelete(items.get(indexSet)) }
+                //.onDelete { indexSet in onDelete(items.get(indexSet)) }
             }
             .buttonStyle(BorderlessButtonStyle())
             .listStyle(InsetGroupedListStyle())

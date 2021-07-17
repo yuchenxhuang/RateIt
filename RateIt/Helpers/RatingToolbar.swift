@@ -20,7 +20,7 @@ struct RatingToolbar: View {
                     isRating = !isRating
                 }, label: {
                     Image(systemName: "\(item.rating).circle.fill")
-                        .font(.largeTitle)
+                        .font(.system(size: 42.0))
                         .foregroundColor(getColor(color: item.category != nil ? item.category!.color! : "black"))
                 })
                 .onChange(of: rating, perform: { _ in
