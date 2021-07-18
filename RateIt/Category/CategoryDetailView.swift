@@ -171,14 +171,36 @@ struct CategoryDetailView: View {
 
 struct AllItemsCategoryView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    @FetchRequest(fetchRequest: PersistenceProvider.default.allItemsRequest()) var allItems: FetchedResults<Item>
+    @FetchRequest(fetchRequest: PersistenceProvider.default.allItemsRequest(sortedBy: "newest")) var allItems: FetchedResults<Item>
+    @FetchRequest(fetchRequest: PersistenceProvider.default.allItemsRequest(sortedBy: "newest")) var newestItems: FetchedResults<Item>
+    @FetchRequest(fetchRequest: PersistenceProvider.default.allItemsRequest(sortedBy: "oldest")) var oldestItems: FetchedResults<Item>
+    @FetchRequest(fetchRequest: PersistenceProvider.default.allItemsRequest(sortedBy: "favorite")) var favoriteItems: FetchedResults<Item>
+    @FetchRequest(fetchRequest: PersistenceProvider.default.allItemsRequest(sortedBy: "best")) var bestItems: FetchedResults<Item>
+    @FetchRequest(fetchRequest: PersistenceProvider.default.allItemsRequest(sortedBy: "worst")) var worstItems: FetchedResults<Item>
+    @FetchRequest(fetchRequest: PersistenceProvider.default.allItemsRequest(sortedBy: "atoz")) var atozItems: FetchedResults<Item>
+    @FetchRequest(fetchRequest: PersistenceProvider.default.allItemsRequest(sortedBy: "ztoa")) var ztoaItems: FetchedResults<Item>
+    @FetchRequest(fetchRequest: PersistenceProvider.default.allItemsRequest(sortedBy: "touched")) var touchedItems: FetchedResults<Item>
+    
     @State var isSearching: Bool = false
     @State var searchText: String = ""
+    @State private var sortedBy = "newest"
+    
+    private func sortedItems(sortedItems: String) -> FetchedResults<Item> {
+        if sortedBy == "newest" { return newestItems }
+        else if sortedBy == "oldest" { return oldestItems }
+        else if sortedBy == "favorite" { return favoriteItems }
+        else if sortedBy == "atoz" { return atozItems }
+        else if sortedBy == "ztoa" { return ztoaItems }
+        else if sortedBy == "touched" { return touchedItems }
+        else if sortedBy == "best" { return bestItems }
+        else if sortedBy == "worst" { return worstItems }
+        else { return newestItems }
+    }
     
     var body: some View {
         VStack {
             AllItemsView(
-                items: allItems
+                items: sortedItems(sortedItems: sortedBy)
             )
         }
         .buttonStyle(PlainButtonStyle())
@@ -188,6 +210,19 @@ struct AllItemsCategoryView: View {
                 isSearching = true
             }, label: {
                 Image(systemName: "magnifyingglass.circle")
+                    .font(.title2)
+            })
+            Menu(content: {
+                SortingButton(name: "favorite", Name: "Favorite", sortedBy: $sortedBy)
+                SortingButton(name: "newest", Name: "Newest", sortedBy: $sortedBy)
+                SortingButton(name: "oldest", Name: "Oldest", sortedBy: $sortedBy)
+                SortingButton(name: "best", Name: "10 → 1", sortedBy: $sortedBy)
+                SortingButton(name: "worst", Name: "1 → 10", sortedBy: $sortedBy)
+                SortingButton(name: "atoz", Name: "A → Z", sortedBy: $sortedBy)
+                SortingButton(name: "ztoa", Name: "Z → A", sortedBy: $sortedBy)
+                SortingButton(name: "touched", Name: "Last Edited", sortedBy: $sortedBy)
+            }, label: {
+                Image(systemName: "arrow.up.arrow.down.circle")
                     .font(.title2)
             })
         })

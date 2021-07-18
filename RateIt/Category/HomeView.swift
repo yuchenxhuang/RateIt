@@ -15,13 +15,14 @@ struct HomeView: View {
     @FetchRequest(fetchRequest: PersistenceProvider.default.touchedCategoriesRequest) var touchedCategories: FetchedResults<Category>
     @FetchRequest(fetchRequest: PersistenceProvider.default.untouchedCategoriesRequest) var untouchedCategories: FetchedResults<Category>
     @FetchRequest(fetchRequest: PersistenceProvider.default.rainbowCategoriesRequest) var rainbowCategories: FetchedResults<Category>
-    @FetchRequest(fetchRequest: PersistenceProvider.default.allItemsRequest()) var allItems: FetchedResults<Item>
+    @FetchRequest(fetchRequest: PersistenceProvider.default.allItemsRequest(sortedBy: "newest")) var newestItems: FetchedResults<Item>
 
     @State private var isPresented = false
     @State private var name = ""
     @State private var color = "black"
     @State private var icon = "circle.fill"
     @State private var sortedBy = "newest"
+    @State private var itemsSortedBy = "newest"
     @State private var isSearching = false
     @State private var searchText = ""
 
@@ -97,7 +98,7 @@ struct HomeView: View {
                         VStack {
                             SearchBar(text: $searchText, isSearching: $isSearching)
                             Spacer()
-                            AllItemsSearchView(items: allItems, searchText: $searchText )
+                            AllItemsSearchView(items: newestItems, searchText: $searchText )
                         }
                         .navigationTitle("Search")
                     }

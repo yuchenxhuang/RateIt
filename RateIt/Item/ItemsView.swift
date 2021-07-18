@@ -11,7 +11,6 @@ struct ItemsView: View {
     let category: Category
     let items: FetchedResults<Item>
     //let onDelete: ([Item]) -> Void
-    @State private var listViewId = UUID()
 
     var body: some View {
         VStack {

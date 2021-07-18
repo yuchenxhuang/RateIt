@@ -64,6 +64,8 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>NSCameraUsageDescription</key>
-	<string>Need to access camera to capture and upload photos</string>
+	<string>Capture and upload photos</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Save photos to camera roll</string>
 </dict>
 </plist>

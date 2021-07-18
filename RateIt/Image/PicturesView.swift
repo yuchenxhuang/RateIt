@@ -29,6 +29,11 @@ struct FullScreenPictureView: View {
                 Image(uiImage: UIImage(data: picture.data! as Data) ?? UIImage())
                     .resizable()
                     .aspectRatio(contentMode: .fit)
+                    .contextMenu {
+                        Button("Save Image", action: {
+                            UIImageWriteToSavedPhotosAlbum(UIImage(data: picture.data! as Data) ?? UIImage(), nil, nil, nil)
+                        })
+                    }
                     .onTapGesture(perform: {
                         presentationMode.wrappedValue.dismiss()
                     })

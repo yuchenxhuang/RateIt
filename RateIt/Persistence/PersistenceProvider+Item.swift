@@ -9,11 +9,20 @@ import CoreData
 
 extension PersistenceProvider {
     
-    func allItemsRequest() -> NSFetchRequest<Item> {
+    func allItemsRequest( sortedBy: String ) -> NSFetchRequest<Item> {
         let request: NSFetchRequest<Item> = Item.fetchRequest()
-        request.sortDescriptors = [
-            NSSortDescriptor(keyPath: \Item.dateAdded, ascending: false),
-        ]
+        if sortedBy == "favorite" {  request.sortDescriptors = [
+            NSSortDescriptor(keyPath: \Item.favorite, ascending: false),
+            NSSortDescriptor(keyPath: \Item.rating, ascending: false), ]
+        }
+        else if sortedBy == "newest" { request.sortDescriptors = [ NSSortDescriptor(keyPath: \Item.dateAdded, ascending: false), ] }
+        else if sortedBy == "oldest" { request.sortDescriptors = [ NSSortDescriptor(keyPath: \Item.dateAdded, ascending: true), ] }
+        else if sortedBy == "best" { request.sortDescriptors = [ NSSortDescriptor(keyPath: \Item.rating, ascending: false), ]  }
+        else if sortedBy == "worst" { request.sortDescriptors = [ NSSortDescriptor(keyPath: \Item.rating, ascending: true), ] }
+        else if sortedBy == "atoz" { request.sortDescriptors = [ NSSortDescriptor(keyPath: \Item.title, ascending: true), ] }
+        else if sortedBy == "ztoa" { request.sortDescriptors = [ NSSortDescriptor(keyPath: \Item.title, ascending: false), ] }
+        else if sortedBy == "touched" { request.sortDescriptors = [ NSSortDescriptor(keyPath: \Item.dateModified, ascending: false), ] }
+        else { request.sortDescriptors = [ NSSortDescriptor(keyPath: \Item.dateAdded, ascending: false), ] }
         return request
     }
     
