@@ -18,28 +18,30 @@ struct NumberChoice: View {
                     rating = Double(choice)
                 }, label: {
                     Image(systemName: "\(choice).circle.fill")
-                        .font( rating == Double(choice) ? .title : .title3 )
+                        .font( rating == Double(choice) ? .title : .title2 )
                 })
+                .padding(.trailing, choice == 10 ? 0 : -3)
             }
         }
     }
 }
 
-struct NumberChoice2: View {
+struct NumberChoiceDetail: View {
     @Binding var rating: Double
     @Binding var isRating: Bool
     let numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
     var body: some View {
-        HStack{
+        HStack(){
             ForEach(numbers, id: \.self) { choice in
                 Button(action: {
                     rating = Double(choice)
                     isRating = false
                 }, label: {
                     Image(systemName: "\(choice).circle.fill")
-                        .font( rating == Double(choice) ? .title : .title3 )
+                        .font( rating == Double(choice) ? .title : .title2 )
                 })
+                .padding(.trailing, 0)
             }
         }
     }

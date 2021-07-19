@@ -78,7 +78,7 @@ struct ItemDetailView: View {
                         Divider()
                         HStack(){
                             Spacer()
-                            NumberChoice2(rating: $rating, isRating: $isRating)
+                            NumberChoiceDetail(rating: $rating, isRating: $isRating)
                                 .foregroundColor(getColor(color: item.category!.color!))
                             Spacer()
                         }

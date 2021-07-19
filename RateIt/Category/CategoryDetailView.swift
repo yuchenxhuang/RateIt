@@ -10,16 +10,7 @@ import SwiftUI
 struct CategoryDetailView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @ObservedObject var category: Category
-    //var favoriteItems, bestItems, worstItems, newestItems, oldestItems, atozItems, ztoaItems, touchedItems: FetchRequest<Item>
-    
-    var favoriteItems: FetchRequest<Item>
-    var bestItems: FetchRequest<Item>
-    var worstItems: FetchRequest<Item>
-    var newestItems: FetchRequest<Item>
-    var oldestItems: FetchRequest<Item>
-    var atozItems: FetchRequest<Item>
-    var ztoaItems: FetchRequest<Item>
-    var touchedItems: FetchRequest<Item>
+    var favoriteItems, bestItems, worstItems, newestItems, oldestItems, atozItems, ztoaItems, touchedItems: FetchRequest<Item>
 
     @State private var sortedBy = "newest"
     //@State private var sortedBy = UserDefaults.standard.string(forKey: "categorySort")
@@ -44,14 +35,14 @@ struct CategoryDetailView: View {
     
     init(category: Category) {
         self.category = category
-        self.favoriteItems = FetchRequest<Item>(fetchRequest: PersistenceProvider.default.favoriteItemsRequest(for: category))
-        self.newestItems = FetchRequest<Item>(fetchRequest: PersistenceProvider.default.newestItemsRequest(for: category))
-        self.oldestItems = FetchRequest<Item>(fetchRequest: PersistenceProvider.default.oldestItemsRequest(for: category))
-        self.bestItems = FetchRequest<Item>(fetchRequest: PersistenceProvider.default.bestItemsRequest(for: category))
-        self.worstItems = FetchRequest<Item>(fetchRequest: PersistenceProvider.default.worstItemsRequest(for: category))
-        self.atozItems = FetchRequest<Item>(fetchRequest: PersistenceProvider.default.atozItemsRequest(for: category))
-        self.ztoaItems = FetchRequest<Item>(fetchRequest: PersistenceProvider.default.ztoaItemsRequest(for: category))
-        self.touchedItems = FetchRequest<Item>(fetchRequest: PersistenceProvider.default.touchedItemsRequest(for: category))
+        self.favoriteItems = FetchRequest<Item>(fetchRequest: PersistenceProvider.default.categoryItemsRequest(for: category, sortedBy: "favorite"))
+        self.newestItems = FetchRequest<Item>(fetchRequest: PersistenceProvider.default.categoryItemsRequest(for: category, sortedBy: "newest"))
+        self.oldestItems = FetchRequest<Item>(fetchRequest: PersistenceProvider.default.categoryItemsRequest(for: category, sortedBy: "oldest"))
+        self.bestItems = FetchRequest<Item>(fetchRequest: PersistenceProvider.default.categoryItemsRequest(for: category, sortedBy: "best"))
+        self.worstItems = FetchRequest<Item>(fetchRequest: PersistenceProvider.default.categoryItemsRequest(for: category, sortedBy: "worst"))
+        self.atozItems = FetchRequest<Item>(fetchRequest: PersistenceProvider.default.categoryItemsRequest(for: category, sortedBy: "atoz"))
+        self.ztoaItems = FetchRequest<Item>(fetchRequest: PersistenceProvider.default.categoryItemsRequest(for: category, sortedBy: "ztoa"))
+        self.touchedItems = FetchRequest<Item>(fetchRequest: PersistenceProvider.default.categoryItemsRequest(for: category, sortedBy: "touched"))
     }
     
     private func reset() {
@@ -63,14 +54,14 @@ struct CategoryDetailView: View {
     }
     
     private func sortedCats(sortedCats: String) -> FetchRequest<Item> {
-        if itemSort == "favorite" { return favoriteItems }
-        else if itemSort == "newest" { return newestItems }
-        else if itemSort == "oldest" { return oldestItems }
-        else if itemSort == "best" { return bestItems }
-        else if itemSort == "worst" { return worstItems }
-        else if itemSort == "atoz" { return atozItems }
-        else if itemSort == "ztoa" { return ztoaItems }
-        else if itemSort == "touched" { return touchedItems }
+        if sortedBy == "favorite" { return favoriteItems }
+        else if sortedBy == "newest" { return newestItems }
+        else if sortedBy == "oldest" { return oldestItems }
+        else if sortedBy == "best" { return bestItems }
+        else if sortedBy == "worst" { return worstItems }
+        else if sortedBy == "atoz" { return atozItems }
+        else if sortedBy == "ztoa" { return ztoaItems }
+        else if sortedBy == "touched" { return touchedItems }
         else { return newestItems }
     }
     
@@ -83,10 +74,6 @@ struct CategoryDetailView: View {
                 ItemsView(
                     category: category,
                     items: sortedCats(sortedCats: itemSort).wrappedValue
-                    /*
-                    ,onDelete: { items in
-                        PersistenceProvider.default.delete(items)
-                    }*/
                 )
             }
             .buttonStyle(PlainButtonStyle())
@@ -159,7 +146,6 @@ struct CategoryDetailView: View {
                             reset()
                         }, trailing: Button("Done") {
                             if itemName.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
-                            //if (itemName != "") {
                                 PersistenceProvider.default.createItem(with: itemName, with: Int16(itemRating), with: itemNotes, with: itemLink,  in: category)
                                 reset()
                             } else {

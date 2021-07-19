@@ -19,15 +19,21 @@
         <attribute name="title" attributeType="String"/>
         <relationship name="category" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Category" inverseName="items" inverseEntity="Category"/>
         <relationship name="pictures" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Picture" inverseName="item" inverseEntity="Picture"/>
+        <relationship name="tags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Tag" inverseName="items" inverseEntity="Tag"/>
     </entity>
     <entity name="Picture" representedClassName="Picture" syncable="YES" codeGenerationType="class">
         <attribute name="data" optional="YES" attributeType="Binary"/>
         <attribute name="dateAdded" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <relationship name="item" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Item" inverseName="pictures" inverseEntity="Item"/>
     </entity>
+    <entity name="Tag" representedClassName="Tag" syncable="YES" codeGenerationType="class">
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="items" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Item" inverseName="tags" inverseEntity="Item"/>
+    </entity>
     <elements>
         <element name="Category" positionX="-63" positionY="-18" width="128" height="134"/>
-        <element name="Item" positionX="-54" positionY="-9" width="128" height="164"/>
+        <element name="Item" positionX="-54" positionY="-9" width="128" height="179"/>
         <element name="Picture" positionX="-54" positionY="63" width="128" height="74"/>
+        <element name="Tag" positionX="-54" positionY="63" width="128" height="59"/>
     </elements>
 </model>

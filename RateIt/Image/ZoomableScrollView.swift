@@ -2,7 +2,8 @@
 //  ZoomableScrollView.swift
 //  RateIt
 //
-//  Created by Yu-Chen Huang on 7/17/21.
+//  Written by Jacob Bandes-Storch
+//  https://stackoverflow.com/questions/58341820/isnt-there-an-easy-way-to-pinch-to-zoom-in-an-image-in-swiftui
 //
 
 import SwiftUI
@@ -15,14 +16,12 @@ struct ZoomableScrollView<Content: View>: UIViewRepresentable {
   }
 
   func makeUIView(context: Context) -> UIScrollView {
-    // set up the UIScrollView
     let scrollView = UIScrollView()
-    scrollView.delegate = context.coordinator  // for viewForZooming(in:)
+    scrollView.delegate = context.coordinator
     scrollView.maximumZoomScale = 20
     scrollView.minimumZoomScale = 1
     scrollView.bouncesZoom = true
 
-    // create a UIHostingController to hold our SwiftUI content
     let hostedView = context.coordinator.hostingController.view!
     hostedView.translatesAutoresizingMaskIntoConstraints = true
     hostedView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -37,12 +36,9 @@ struct ZoomableScrollView<Content: View>: UIViewRepresentable {
   }
 
   func updateUIView(_ uiView: UIScrollView, context: Context) {
-    // update the hosting controller's SwiftUI content
     context.coordinator.hostingController.rootView = self.content
     assert(context.coordinator.hostingController.view.superview == uiView)
   }
-
-  // MARK: - Coordinator
 
   class Coordinator: NSObject, UIScrollViewDelegate {
     var hostingController: UIHostingController<Content>

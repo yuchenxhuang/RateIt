@@ -8,13 +8,12 @@
 import SwiftUI
 
 struct HomeView: View {
-    @FetchRequest(fetchRequest: PersistenceProvider.default.newestCategoriesRequest) var newestCategories: FetchedResults<Category>
-    @FetchRequest(fetchRequest: PersistenceProvider.default.oldestCategoriesRequest) var oldestCategories: FetchedResults<Category>
-    @FetchRequest(fetchRequest: PersistenceProvider.default.atozCategoriesRequest) var atozCategories: FetchedResults<Category>
-    @FetchRequest(fetchRequest: PersistenceProvider.default.ztoaCategoriesRequest) var ztoaCategories: FetchedResults<Category>
-    @FetchRequest(fetchRequest: PersistenceProvider.default.touchedCategoriesRequest) var touchedCategories: FetchedResults<Category>
-    @FetchRequest(fetchRequest: PersistenceProvider.default.untouchedCategoriesRequest) var untouchedCategories: FetchedResults<Category>
-    @FetchRequest(fetchRequest: PersistenceProvider.default.rainbowCategoriesRequest) var rainbowCategories: FetchedResults<Category>
+    @FetchRequest(fetchRequest: PersistenceProvider.default.allCategoriesRequest(sortedBy: "newest")) var newestCategories: FetchedResults<Category>
+    @FetchRequest(fetchRequest: PersistenceProvider.default.allCategoriesRequest(sortedBy: "oldest")) var oldestCategories: FetchedResults<Category>
+    @FetchRequest(fetchRequest: PersistenceProvider.default.allCategoriesRequest(sortedBy: "atoz")) var atozCategories: FetchedResults<Category>
+    @FetchRequest(fetchRequest: PersistenceProvider.default.allCategoriesRequest(sortedBy: "ztoa")) var ztoaCategories: FetchedResults<Category>
+    @FetchRequest(fetchRequest: PersistenceProvider.default.allCategoriesRequest(sortedBy: "touched")) var touchedCategories: FetchedResults<Category>
+    @FetchRequest(fetchRequest: PersistenceProvider.default.allCategoriesRequest(sortedBy: "rainbow")) var rainbowCategories: FetchedResults<Category>
     @FetchRequest(fetchRequest: PersistenceProvider.default.allItemsRequest(sortedBy: "newest")) var newestItems: FetchedResults<Item>
 
     @State private var isPresented = false
@@ -47,7 +46,6 @@ struct HomeView: View {
         else if catSort == "atoz" { return atozCategories }
         else if catSort == "ztoa" { return ztoaCategories }
         else if catSort == "touched" { return touchedCategories }
-        else if catSort == "untouched" { return untouchedCategories }
         else if catSort == "rainbow" { return rainbowCategories }
         else { return newestCategories }
     }

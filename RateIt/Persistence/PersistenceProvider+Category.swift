@@ -10,53 +10,18 @@ import CoreData
 
 extension PersistenceProvider {
     
-    // DATE ADDED
-    var newestCategoriesRequest: NSFetchRequest<Category> {
+    func allCategoriesRequest( sortedBy: String ) -> NSFetchRequest<Category> {
         let request: NSFetchRequest<Category> = Category.fetchRequest()
-        request.sortDescriptors = [NSSortDescriptor(keyPath: \Category.dateAdded, ascending: false)]
+        if sortedBy == "newest" { request.sortDescriptors = [ NSSortDescriptor(keyPath: \Category.dateAdded, ascending: false) ] }
+        else if sortedBy == "oldest" { request.sortDescriptors = [ NSSortDescriptor(keyPath: \Category.dateAdded, ascending: true) ] }
+        else if sortedBy == "atoz" { request.sortDescriptors = [ NSSortDescriptor(keyPath: \Category.title, ascending: true) ] }
+        else if sortedBy == "ztoa" { request.sortDescriptors = [ NSSortDescriptor(keyPath: \Category.title, ascending: false) ] }
+        else if sortedBy == "rainbow" { request.sortDescriptors = [NSSortDescriptor(keyPath: \Category.colorOrder, ascending: true) ] }
+        else if sortedBy == "touched" { request.sortDescriptors = [ NSSortDescriptor(keyPath: \Category.dateModified, ascending: false) ] }
+        else { request.sortDescriptors = [ NSSortDescriptor(keyPath: \Category.dateAdded, ascending: false) ] }
         return request
     }
-    
-    var oldestCategoriesRequest: NSFetchRequest<Category> {
-        let request: NSFetchRequest<Category> = Category.fetchRequest()
-        request.sortDescriptors = [NSSortDescriptor(keyPath: \Category.dateAdded, ascending: true)]
-        return request
-    }
-    
-    // DATE EDITED
-    var touchedCategoriesRequest: NSFetchRequest<Category> {
-        let request: NSFetchRequest<Category> = Category.fetchRequest()
-        request.sortDescriptors = [NSSortDescriptor(keyPath: \Category.dateModified, ascending: false)]
-        return request
-    }
-    
-    var untouchedCategoriesRequest: NSFetchRequest<Category> {
-        let request: NSFetchRequest<Category> = Category.fetchRequest()
-        request.sortDescriptors = [NSSortDescriptor(keyPath: \Category.dateModified, ascending: true)]
-        return request
-    }
-    
-    // ALPHABETICAL
-    var atozCategoriesRequest: NSFetchRequest<Category> {
-        let request: NSFetchRequest<Category> = Category.fetchRequest()
-        request.sortDescriptors = [NSSortDescriptor(keyPath: \Category.title, ascending: true)]
-        return request
-    }
-    
-    var ztoaCategoriesRequest: NSFetchRequest<Category> {
-        let request: NSFetchRequest<Category> = Category.fetchRequest()
-        request.sortDescriptors = [NSSortDescriptor(keyPath: \Category.title, ascending: false)]
-        return request
-    }
-    
-    // RAINBOW
-    
-    var rainbowCategoriesRequest: NSFetchRequest<Category> {
-        let request: NSFetchRequest<Category> = Category.fetchRequest()
-        request.sortDescriptors = [NSSortDescriptor(keyPath: \Category.colorOrder, ascending: true)]
-        return request
-    }
-    
+
     @discardableResult
     func createCategory(with title: String, with color: String, with icon: String) -> Category {
         let category = Category(context: context)
@@ -85,6 +50,4 @@ extension PersistenceProvider {
         }
         try? context.save()
     }
-    
-    
 }

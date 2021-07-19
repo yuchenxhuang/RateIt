@@ -25,7 +25,6 @@ struct SearchBar: View {
             Button(action: {
                 isSearching = false
                 self.text = ""
-
             }) {
                 Image(systemName: "xmark.circle")
                     .font(.title2)
