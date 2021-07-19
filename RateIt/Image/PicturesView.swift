@@ -10,7 +10,9 @@ import SwiftUI
 struct FullScreenPictureView: View {
     @Environment(\.presentationMode) var presentationMode
     let picture: Picture
-    
+    @State private var showAlert = false
+    @State private var delete = false
+
     var body: some View {
         VStack{
             HStack {
@@ -47,12 +49,24 @@ struct FullScreenPictureView: View {
                 }
             }
             Button(action: {
-                presentationMode.wrappedValue.dismiss()
-                PersistenceProvider.default.delete([picture])
+                showAlert = true
+                //presentationMode.wrappedValue.dismiss()
+                //PersistenceProvider.default.delete([picture])
             }, label: {
                 Image(systemName: "trash.circle.fill")
                     .font(.largeTitle)
                     .foregroundColor(.red)
             })
+            .alert(isPresented: $showAlert) {
+                Alert(title: Text("Delete photo?"),
+                      message: Text("You cannot undo this action."),
+                      primaryButton: .default (Text("OK")) {
+                        showAlert = false
+                        presentationMode.wrappedValue.dismiss()
+                        PersistenceProvider.default.delete([picture])
+                      },
+                      secondaryButton: .cancel()
+                )
+            }
     }
 }

@@ -110,6 +110,7 @@ extension PersistenceProvider {
         item.link = link
         item.favorite = false
         list.addToItems(item)
+        item.category!.dateModified = Date()
         try? context.save()
         return item
     }
@@ -160,8 +161,6 @@ extension PersistenceProvider {
     }
     
     func delete(_ items: [Item]) {
-        
-        // bug
         context.perform {
             for item in items {
                 self.context.delete(item)

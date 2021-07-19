@@ -21,10 +21,14 @@ struct HomeView: View {
     @State private var name = ""
     @State private var color = "black"
     @State private var icon = "circle.fill"
-    @State private var sortedBy = "newest"
+    //@State private var sortedBy = "newest"
     @State private var itemsSortedBy = "newest"
     @State private var isSearching = false
     @State private var searchText = ""
+    @State private var showAlert = false
+    
+    static let catSortKey = "category_sort"
+    @AppStorage(Self.catSortKey) var catSort: String = "newest"
 
     init() {
         UINavigationBar.appearance().largeTitleTextAttributes = [.font : UIFont(name: "JosefinSans-Bold", size: 34)!]
@@ -38,13 +42,13 @@ struct HomeView: View {
     }
     
     private func sortedCats(sortedCats: String) -> FetchedResults<Category> {
-        if sortedBy == "newest" { return newestCategories }
-        else if sortedBy == "oldest" { return oldestCategories }
-        else if sortedBy == "atoz" { return atozCategories }
-        else if sortedBy == "ztoa" { return ztoaCategories }
-        else if sortedBy == "touched" { return touchedCategories }
-        else if sortedBy == "untouched" { return untouchedCategories }
-        else if sortedBy == "rainbow" { return rainbowCategories }
+        if catSort == "newest" { return newestCategories }
+        else if catSort == "oldest" { return oldestCategories }
+        else if catSort == "atoz" { return atozCategories }
+        else if catSort == "ztoa" { return ztoaCategories }
+        else if catSort == "touched" { return touchedCategories }
+        else if catSort == "untouched" { return untouchedCategories }
+        else if catSort == "rainbow" { return rainbowCategories }
         else { return newestCategories }
     }
     
@@ -67,7 +71,7 @@ struct HomeView: View {
                         }
                         .foregroundColor(.black)
                     }
-                    ForEach( sortedCats(sortedCats: sortedBy)) { category in
+                    ForEach( sortedCats(sortedCats: catSort)) { category in
                         NavigationLink(destination: CategoryDetailView(category: category)) {
                             CategoryCardView(category: category)
                         }
@@ -84,11 +88,18 @@ struct HomeView: View {
                             .navigationBarItems(leading: Button("Cancel") {
                                 reset()
                             }, trailing: Button("Done") {
-                                if (name != "") {
+                                if name.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
+                                //if (name != "") {
                                     PersistenceProvider.default.createCategory(with: name, with: color, with: icon)
+                                    reset()
+                                } else {
+                                    showAlert = true
                                 }
-                                reset()
                             })
+                            .alert(isPresented: $showAlert) {
+                                Alert(title: Text("Please enter a title")
+                                )
+                            }
                     }
                 }
                 
@@ -113,12 +124,18 @@ struct HomeView: View {
                         .font(.title2)
                 })
                 Menu( content: {
-                    SortingButton(name: "newest", Name: "Newest", sortedBy: $sortedBy)
-                    SortingButton(name: "oldest", Name: "Oldest", sortedBy: $sortedBy)
-                    SortingButton(name: "atoz", Name: "A → Z", sortedBy: $sortedBy)
-                    SortingButton(name: "ztoa", Name: "Z → A", sortedBy: $sortedBy)
-                    SortingButton(name: "rainbow", Name: "Rainbow", sortedBy: $sortedBy)
-                    SortingButton(name: "touched", Name: "Last Edited", sortedBy: $sortedBy)
+                    CatSortButton(name: "newest", Name: "Newest")
+                    CatSortButton(name: "oldest", Name: "Oldest")
+                    CatSortButton(name: "atoz", Name: "A → Z")
+                    CatSortButton(name: "ztoa", Name: "Z → A")
+                    CatSortButton(name: "rainbow", Name: "Rainbow")
+                    CatSortButton(name: "touched", Name: "Last Updated")
+//                    SortingButton(name: "newest", Name: "Newest", sortedBy: $catSort)
+//                    SortingButton(name: "oldest", Name: "Oldest", sortedBy: $catSort)
+//                    SortingButton(name: "atoz", Name: "A → Z", sortedBy: $catSort)
+//                    SortingButton(name: "ztoa", Name: "Z → A", sortedBy: $catSort)
+//                    SortingButton(name: "rainbow", Name: "Rainbow", sortedBy: $catSort)
+//                    SortingButton(name: "touched", Name: "Last Edited", sortedBy: $catSort)
                 }, label: {
                     Image(systemName: "arrow.up.arrow.down.circle")
                         .font(.title2)

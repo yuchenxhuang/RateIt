@@ -272,7 +272,7 @@ struct ItemDetailView: View {
                     isEditing = false
                 })
                 .alert(isPresented: $showAlert) {
-                    Alert(title: Text("Are you sure?"),
+                    Alert(title: Text("Delete item?"),
                           message: Text("You cannot undo this action."),
                           primaryButton: .default (Text("OK")) {
                             isEditing = false

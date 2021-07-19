@@ -22,6 +22,7 @@ struct CategoryDetailView: View {
     var touchedItems: FetchRequest<Item>
 
     @State private var sortedBy = "newest"
+    //@State private var sortedBy = UserDefaults.standard.string(forKey: "categorySort")
     @State private var isPresented = false
     @State private var isAdding = false
     @State private var catName = ""
@@ -36,7 +37,11 @@ struct CategoryDetailView: View {
     
     @State var isSearching: Bool = false
     @State var searchText: String = ""
-
+    @State var showAlert: Bool = false
+    
+    static let itemSortKey = "item_sort"
+    @AppStorage(Self.itemSortKey) var itemSort: String = "newest"
+    
     init(category: Category) {
         self.category = category
         self.favoriteItems = FetchRequest<Item>(fetchRequest: PersistenceProvider.default.favoriteItemsRequest(for: category))
@@ -58,14 +63,14 @@ struct CategoryDetailView: View {
     }
     
     private func sortedCats(sortedCats: String) -> FetchRequest<Item> {
-        if sortedBy == "favorite" { return favoriteItems }
-        else if sortedBy == "newest" { return newestItems }
-        else if sortedBy == "oldest" { return oldestItems }
-        else if sortedBy == "best" { return bestItems }
-        else if sortedBy == "worst" { return worstItems }
-        else if sortedBy == "atoz" { return atozItems }
-        else if sortedBy == "ztoa" { return ztoaItems }
-        else if sortedBy == "touched" { return touchedItems }
+        if itemSort == "favorite" { return favoriteItems }
+        else if itemSort == "newest" { return newestItems }
+        else if itemSort == "oldest" { return oldestItems }
+        else if itemSort == "best" { return bestItems }
+        else if itemSort == "worst" { return worstItems }
+        else if itemSort == "atoz" { return atozItems }
+        else if itemSort == "ztoa" { return ztoaItems }
+        else if itemSort == "touched" { return touchedItems }
         else { return newestItems }
     }
     
@@ -77,7 +82,7 @@ struct CategoryDetailView: View {
             VStack {
                 ItemsView(
                     category: category,
-                    items: sortedCats(sortedCats: sortedBy).wrappedValue
+                    items: sortedCats(sortedCats: itemSort).wrappedValue
                     /*
                     ,onDelete: { items in
                         PersistenceProvider.default.delete(items)
@@ -103,14 +108,22 @@ struct CategoryDetailView: View {
                         .font(.title2)
                 })
                 Menu(content: {
-                    SortingButton(name: "favorite", Name: "Favorite", sortedBy: $sortedBy)
+//                    ItemSortButton(name: "newest", Name: "Newest")
+//                    ItemSortButton(name: "oldest", Name: "Oldest")
+//                    ItemSortButton(name: "favorite", Name: "Favorite")
+//                    ItemSortButton(name: "best", Name: "10 → 1")
+//                    ItemSortButton(name: "worst", Name: "1 → 10")
+//                    ItemSortButton(name: "atoz", Name: "A → Z")
+//                    ItemSortButton(name: "ztoa", Name: "Z → A")
+//                    ItemSortButton(name: "touched", Name: "Last Edited")
                     SortingButton(name: "newest", Name: "Newest", sortedBy: $sortedBy)
                     SortingButton(name: "oldest", Name: "Oldest", sortedBy: $sortedBy)
+                    SortingButton(name: "favorite", Name: "Favorite", sortedBy: $sortedBy)
                     SortingButton(name: "best", Name: "10 → 1", sortedBy: $sortedBy)
                     SortingButton(name: "worst", Name: "1 → 10", sortedBy: $sortedBy)
                     SortingButton(name: "atoz", Name: "A → Z", sortedBy: $sortedBy)
                     SortingButton(name: "ztoa", Name: "Z → A", sortedBy: $sortedBy)
-                    SortingButton(name: "touched", Name: "Last Edited", sortedBy: $sortedBy)
+                    SortingButton(name: "touched", Name: "Last Updated", sortedBy: $sortedBy)
                 }, label: {
                     Image(systemName: "arrow.up.arrow.down.circle")
                         .font(.title2)
@@ -128,7 +141,8 @@ struct CategoryDetailView: View {
                             isPresented = false
                         }, trailing: Button("Done") {
                             isPresented = false
-                            if (catName != "") {
+                            if catName.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
+                            //if (catName != "") {
                                 PersistenceProvider.default.update(category, with: catName, with: catColor, with: catIcon)
                             }
                         })
@@ -144,11 +158,19 @@ struct CategoryDetailView: View {
                         .navigationBarItems(leading: Button("Cancel") {
                             reset()
                         }, trailing: Button("Done") {
-                            if (itemName != "") {
+                            if itemName.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
+                            //if (itemName != "") {
                                 PersistenceProvider.default.createItem(with: itemName, with: Int16(itemRating), with: itemNotes, with: itemLink,  in: category)
+                                reset()
+                            } else {
+                                showAlert = true
                             }
-                            reset()
                         })
+                        .alert(isPresented: $showAlert) {
+                            Alert(title: Text("Please enter a title")
+                                  //message: Text("Deleting this category will also delete all items in it."),
+                            )
+                        }
                 }
             }
             
@@ -213,14 +235,14 @@ struct AllItemsCategoryView: View {
                     .font(.title2)
             })
             Menu(content: {
-                SortingButton(name: "favorite", Name: "Favorite", sortedBy: $sortedBy)
                 SortingButton(name: "newest", Name: "Newest", sortedBy: $sortedBy)
                 SortingButton(name: "oldest", Name: "Oldest", sortedBy: $sortedBy)
+                SortingButton(name: "favorite", Name: "Favorite", sortedBy: $sortedBy)
                 SortingButton(name: "best", Name: "10 → 1", sortedBy: $sortedBy)
                 SortingButton(name: "worst", Name: "1 → 10", sortedBy: $sortedBy)
                 SortingButton(name: "atoz", Name: "A → Z", sortedBy: $sortedBy)
                 SortingButton(name: "ztoa", Name: "Z → A", sortedBy: $sortedBy)
-                SortingButton(name: "touched", Name: "Last Edited", sortedBy: $sortedBy)
+                SortingButton(name: "touched", Name: "Last Updated", sortedBy: $sortedBy)
             }, label: {
                 Image(systemName: "arrow.up.arrow.down.circle")
                     .font(.title2)

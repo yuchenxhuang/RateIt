@@ -53,3 +53,46 @@ struct SortingButton: View {
         })
     }
 }
+
+struct ItemSortButton: View {
+    let name: String
+    let Name: String
+    static let itemSortKey = "item_sort"
+    @AppStorage(Self.itemSortKey) var itemSort: String = "newest"
+    
+    //UserDefaults.standard.setValue("John", forKey: Self.userNameKey)
+
+    
+    var body: some View {
+        Button(action: {
+            UserDefaults.standard.setValue(name, forKey: Self.itemSortKey)
+        }, label: {
+            HStack() {
+                Text(Name)
+                if itemSort == name {
+                    Image(systemName: "checkmark")
+                }
+            }
+        })
+    }
+}
+
+struct CatSortButton: View {
+    let name: String
+    let Name: String
+    static let catSortKey = "category_sort"
+    @AppStorage(Self.catSortKey) var catSort: String = "newest"
+    
+    var body: some View {
+        Button(action: {
+            UserDefaults.standard.setValue(name, forKey: Self.catSortKey)
+        }, label: {
+            HStack() {
+                Text(Name)
+                if catSort == name {
+                    Image(systemName: "checkmark")
+                }
+            }
+        })
+    }
+}

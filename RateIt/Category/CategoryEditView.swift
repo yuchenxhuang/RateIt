@@ -52,8 +52,8 @@ struct CategoryEditView: View {
             .buttonStyle(BorderlessButtonStyle())
             .listStyle(InsetGroupedListStyle())
             .alert(isPresented: $showAlert) {
-                Alert(title: Text("Are you sure?"),
-                      message: Text("Deleting this category will also delete all items in it."),
+                Alert(title: Text("Delete category?"),
+                      message: Text("All items in this category will also be deleted."),
                       primaryButton: .default (Text("OK")) {
                         isPresented = false
                         self.presentationMode.dismiss()
