@@ -141,10 +141,10 @@ struct ItemDetailView: View {
 
                     ZStack(alignment: .leading) {
                         if notes == "" {
-                           Text("Add a note...")
+                           Text(" Add a note...")
                         }
                         TextEditor(text: $notes)
-                            .fixedSize(horizontal: false, vertical: true)
+//                            .fixedSize(horizontal: false, vertical: true)
                             .opacity( notes == "" ? 0.5 : 1.0)
                             .onChange(of: notes) { value in
                                 if value.last == "\n" {
@@ -168,10 +168,10 @@ struct ItemDetailView: View {
                     
                     ZStack(alignment: .leading) {
                         if link == "" {
-                           Text("Add a link...")
+                           Text(" Add a link...")
                         }
                         TextEditor(text: $link)
-                            .fixedSize(horizontal: false, vertical: true)
+//                            .fixedSize(horizontal: false, vertical: true)
                             .opacity( link == "" ? 0.5 : 1.0)
                             .onChange(of: link) { value in
                                 if value.contains("\n") {
